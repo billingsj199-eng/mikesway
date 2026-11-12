@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "site": "mikesway",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".git",
+      ".git/**",
+      "**/.*",
+      "**/.*/**",
+      "**/node_modules/**",
+      "**/__pycache__/**",
+      "*.py",
+      "defense*.json"
+    ],
+    "headers": [
+      { "source": "**/*.@(js|css|html)", "headers": [{ "key": "Cache-Control", "value": "no-cache" }] }
+    ]
+  }
+}
