@@ -26,6 +26,10 @@ if (location.hostname.endsWith("github.io")) location.replace("https://mikesway.
   .navlink{color:var(--muted);text-decoration:none;font-weight:600;font-size:13px;padding:15px 12px;border-bottom:2px solid transparent;white-space:nowrap}
   .navlink:hover{color:var(--ink)}
   .navlink.on{color:#fff;border-bottom-color:var(--accent)}
+  /* phones: every nav link fits without sideways scrolling; long names shorten to "J. Christiansen" */
+  .nm-s{display:none}
+  @media (max-width:600px){ .nm-f{display:none} .nm-s{display:inline} }
+  @media (max-width:440px){ .topnav-in{padding:0 10px;gap:0} .brand-t{display:none} .brand{margin-right:6px} .navlink{padding:15px 9px;font-size:12.5px} }
   /* header */
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:20px 0 14px}
   h1{font-family:Oswald,sans-serif;font-weight:700;letter-spacing:.03em;text-transform:uppercase;margin:0;font-size:clamp(22px,4.5vw,32px)}
@@ -104,6 +108,12 @@ if (location.hostname.endsWith("github.io")) location.replace("https://mikesway.
   .g-chev{margin-left:auto;color:var(--muted);font-size:13px;font-weight:600}
   .g-body{border-top:1px solid var(--line);padding:14px 16px 16px;display:grid;gap:14px}
   .g-body[hidden]{display:none}
+  .g-body > *{min-width:0}   /* let wide box scores scroll inside the card instead of stretching it */
+  @media (max-width:600px){
+    /* wide stat tables scroll sideways on phones; keep the first column (name / date) pinned */
+    .glog th:first-child,.glog td:first-child{position:sticky;left:0;z-index:1;background:var(--panel)}
+    .glog tfoot td:first-child{background:#1b2336}
+  }
   .lsc{border-collapse:collapse;background:transparent;width:auto;min-width:320px}
   .lsc th,.lsc td{padding:6px 10px;text-align:center;border-bottom:1px solid var(--line)}
   .lsc th{background:#0f1525;color:var(--muted);font-size:11px}
@@ -160,7 +170,7 @@ if (location.hostname.endsWith("github.io")) location.replace("https://mikesway.
 <body>
 <nav class="topnav">
   <div class="topnav-in">
-    <span class="brand">🥎 Mike's <b>Way</b></span>
+    <span class="brand">🥎 <span class="brand-t">Mike's <b>Way</b></span></span>
     <a href="#stats" class="navlink" data-page="stats">Stats</a>
     <a href="#games" class="navlink" data-page="games">Games</a>
     <a href="#leaders" class="navlink" data-page="leaders">Leaders</a>
@@ -298,6 +308,8 @@ function headshot(p){
   return el;
 }
 function linkName(el, id){ el.classList.add("plink"); el.addEventListener("click", e => { e.stopPropagation(); openCard(id); }); }
+// Names on phones: "Jeremy Christiansen" -> "J. Christiansen" (CSS swaps .nm-f / .nm-s at 600px).
+const nm = p => { const w = String(p.name).trim().split(/\s+/); return w.length < 2 ? p.name : `<span class="nm-f">${p.name}</span><span class="nm-s">${w[0][0]}. ${w.slice(1).join(" ")}</span>`; };
 const numTxt = p => p.num ? "#" + p.num : "";
 const batsTxt = b => b === "L" ? "Bats L" : b === "R" ? "Bats R" : b === "S" ? "Switch" : "";
 
@@ -374,7 +386,7 @@ function renderFielding(board, all){
     const D = p.DEF, ch = D.PO + D.A + D.E, fld = ch ? (D.PO + D.A) / ch : null;
     const tr = document.createElement("tr"); tr.className = "prow";
     tr.innerHTML = `<td class="num" style="color:var(--ink)">${p.DG ? ++k : "–"}</td>
-      <td class="left"><div class="player"><span class="hsx"></span><div><div class="pname">${p.name}</div><div class="psub">${p.num ? "#" + p.num : "&nbsp;"}</div></div></div></td>
+      <td class="left"><div class="player"><span class="hsx"></span><div><div class="pname">${nm(p)}</div><div class="psub">${p.num ? "#" + p.num : "&nbsp;"}</div></div></div></td>
       <td><span class="pill" style="--tc:#4b9ce8">${posTxt(p)}</span></td>
       <td>${p.DG || "—"}</td><td>${p.DG ? D.PO : "—"}</td><td>${p.DG ? D.A : "—"}</td><td>${p.DG ? D.E : "—"}</td><td>${p.DG ? D.DP : "—"}</td>
       <td class="rate">${fld == null ? "—" : fmtRate(fld)}</td>
@@ -404,7 +416,7 @@ function renderFantasy(board, list){
     const tr = document.createElement("tr"); tr.className = "prow";
     const c = p.PA >= MIN_PA ? pctClass("FPG", p.FPG) : "";
     tr.innerHTML = `<td class="num" style="color:var(--ink)">${p.rank ?? "–"}</td>
-      <td class="left"><div class="player"><span class="hsx"></span><div><div style="display:flex;align-items:center;gap:8px"><span class="pname">${p.name}</span>${p.num ? `<span class="pill">#${p.num}</span>` : ""}</div>
+      <td class="left"><div class="player"><span class="hsx"></span><div><div style="display:flex;align-items:center;gap:8px"><span class="pname">${nm(p)}</span>${p.num ? `<span class="pill">#${p.num}</span>` : ""}</div>
         <div class="psub">${[p.display, batsTxt(p.bats)].filter(Boolean).join(" · ") || "&nbsp;"}</div></div></div></td>
       ${SHOW_DEFENSE ? `<td><span class="pill" style="--tc:#4b9ce8">${posTxt(p)}</span></td>` : ""}
       <td style="font-weight:700"><span class="pcv ${c}">${fmt1(p.FPG)}</span></td>
@@ -464,7 +476,7 @@ function renderCards(board, list){
     const c = document.createElement("article"); c.className = "card";
     c.innerHTML = `<span class="jn">${p.num || ""}</span>${p.bats !== "?" ? `<span class="pill bt">${p.bats}</span>` : ""}`;
     c.appendChild(headshot(p));
-    c.insertAdjacentHTML("beforeend", `<div class="pname">${p.name}</div><div class="psub">${p.display || "&nbsp;"}</div>
+    c.insertAdjacentHTML("beforeend", `<div class="pname">${nm(p)}</div><div class="psub">${p.display || "&nbsp;"}</div>
       <div class="line"><div>FPTS/G<b>${fmt1(p.FPG)}</b></div><div>AVG<b>${fmtRate(p.AVG)}</b></div><div>HR<b>${p.HR}</b></div><div>RBI<b>${p.RBI}</b></div></div>`);
     c.querySelector(".jn").textContent = p.rank ? "#" + p.rank : "";
     if (p.num) c.querySelector(".psub").textContent = `#${p.num}${p.display ? " · " + p.display : ""}`;
@@ -508,7 +520,7 @@ function renderGames(){
     g.order.forEach(id => {
       const l = g.lines[id], p = byId[id];
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td>${p ? `<div class="player"><span class="hsx"></span><span class="pname" style="font-size:14px">${p.name}</span></div>` : `<span class="unk">${unknownLabel(id)}</span>`}</td>
+      tr.innerHTML = `<td>${p ? `<div class="player"><span class="hsx"></span><span class="pname" style="font-size:14px">${nm(p)}</span></div>` : `<span class="unk">${unknownLabel(id)}</span>`}</td>
         <td style="text-align:center">${l.AB}</td><td style="text-align:center">${l.R}</td><td style="text-align:center">${l.H}</td><td style="text-align:center">${l.RBI}</td><td style="text-align:center">${l.HR}</td><td style="text-align:center">${l.BB}</td>
         <td><div class="abs">${l.pas.map(abChip).join("")}</div></td>`;
       if (p) { const hs = headshot(p); hs.style.cssText = "width:28px;height:28px;font-size:10px"; tr.querySelector(".hsx").replaceWith(hs); linkName(tr.querySelector(".pname"), id); }
@@ -536,7 +548,7 @@ function renderLeaders(){
     pool.forEach((p, i) => {
       if (p[k] !== prev) rank = i + 1; prev = p[k];
       const r = document.createElement("div"); r.className = "r" + (rank === 1 ? " first" : "");
-      r.innerHTML = `<span class="n">${rank}</span><span class="hsx"></span><span class="nm">${p.name}</span><span class="v">${rate === 2 ? fmt1(p[k]) : rate ? fmtRate(p[k]) : p[k]}</span>`;
+      r.innerHTML = `<span class="n">${rank}</span><span class="hsx"></span><span class="nm">${nm(p)}</span><span class="v">${rate === 2 ? fmt1(p[k]) : rate ? fmtRate(p[k]) : p[k]}</span>`;
       r.querySelector(".hsx").replaceWith(headshot(p)); linkName(r.querySelector(".nm"), p.id);
       lb.appendChild(r);
     });
@@ -716,6 +728,28 @@ function mountMedia(mode){
   if (mode !== "file") vid.pause();
   if (mode !== "yt") { ytWant = null; const p = ytP(); if (p) p.pauseVideo(); }
 }
+// ---- full screen (whole video stage, so highlights keep auto-playing play after play) ----
+// Real full screen + landscape lock where the browser allows it (Android, desktop). iPhone Safari
+// can't full-screen a page element, so there the stage covers the screen and turns sideways instead.
+function enterFS(){
+  const st = document.getElementById("vstage"); if (!st) return;
+  const req = st.requestFullscreen || st.webkitRequestFullscreen;
+  if (req && (document.fullscreenEnabled || document.webkitFullscreenEnabled)) {
+    Promise.resolve(req.call(st, {navigationUI: "hide"})).then(() => {
+      try { screen.orientation && screen.orientation.lock && screen.orientation.lock("landscape").catch(() => {}); } catch(e){}
+    }).catch(() => fakeFS(st, true));
+  } else fakeFS(st, true);
+}
+function fakeFS(st, on){ st.classList.toggle("fs-fake", on); document.body.classList.toggle("fs-lock", on); }
+function exitFS(){
+  const st = document.getElementById("vstage");
+  if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+  if (st) fakeFS(st, false);
+  try { screen.orientation && screen.orientation.unlock && screen.orientation.unlock(); } catch(e){}
+}
+document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) { try { screen.orientation.unlock(); } catch(e){} } });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && document.querySelector(".vstage.fs-fake")) exitFS(); });
+
 // autoplay-next for YouTube (it has no timeupdate event, so check a few times a second)
 setInterval(() => {
   const p = ytP();
@@ -795,6 +829,7 @@ function renderFilmLanding(){
 
 // ---------- viewer ----------
 function renderViewer(autoplay){
+  document.body.classList.remove("fs-lock");
   const root = filmRootEl(), list = filtered();
   const inGame = x => FS.game === "all" || x.f.game === FS.game;
   const chips = [];
@@ -815,11 +850,16 @@ function renderViewer(autoplay){
       <h1><span class="gold">${list.length} play${list.length === 1 ? "" : "s"}</span> matching your criteria</h1>
       <div class="chiprow">${chips.map(([t], i) => `<span class="fchip">${t}<button data-i="${i}" aria-label="Remove">✕</button></span>`).join("") || `<span class="fchip">Everything</span>`}</div>
       <div id="sbWrap"></div>
-      <div class="vbox" id="vbox"></div>
+      <div class="vstage" id="vstage">
+        <div class="vbox" id="vbox"></div>
+        <div class="fs-bar"><span class="fs-lbl" id="fsLbl"></span>
+          <button class="cbtn" id="fsPrev" aria-label="Previous play">⏮</button><button class="cbtn" id="fsNext" aria-label="Next play">⏭</button><button class="cbtn" id="fsExit" aria-label="Exit full screen">✕</button></div>
+      </div>
       <div class="vctl">
         <button class="cbtn" id="prev">⏮ Prev</button>
         <button class="cbtn" id="replay">↻ Replay</button>
         <button class="cbtn" id="next">Next ⏭</button>
+        <button class="cbtn" id="fsBtn">⛶ Full screen</button>
         <label class="tog" style="margin-left:8px"><input type="checkbox" id="vAuto" ${FS.auto ? "checked" : ""}><span class="sw"></span>Autoplay next play</label>
       </div>
       <div class="pdesc" id="pdesc"></div>
@@ -853,6 +893,10 @@ function renderViewer(autoplay){
   root.querySelector("#next").onclick = () => showPlay(FS.idx + 1, true);
   root.querySelector("#replay").onclick = () => showPlay(FS.idx, true);
   root.querySelector("#vAuto").onchange = e => FS.auto = e.target.checked;
+  root.querySelector("#fsBtn").onclick = enterFS;
+  root.querySelector("#fsExit").onclick = exitFS;
+  root.querySelector("#fsPrev").onclick = () => showPlay(FS.idx - 1, true);
+  root.querySelector("#fsNext").onclick = () => showPlay(FS.idx + 1, true);
   showPlay(Math.min(FS.idx, Math.max(0, list.length - 1)), autoplay);
 }
 
@@ -911,7 +955,8 @@ function showPlay(i, play){
   }
   // text
   root.querySelector("#sbWrap").innerHTML = scoreboard(x);
-  root.querySelector("#pdesc").innerHTML = `<b>${playLabel(x)}</b> — ${(p.result.charAt(0) + p.result.slice(1).toLowerCase()).replace(/\brbi\b/gi, "RBI")}${p.rbi ? ` · ${p.rbi} RBI` : ""}`;
+  { const fl = root.querySelector("#fsLbl"); if (fl) fl.textContent = `${i + 1}/${list.length} · ${playLabel(x)} — ${p.result}`; }
+  root.querySelector("#pdesc").innerHTML = `<b>${playLabel(x)}</b> —${(p.result.charAt(0) + p.result.slice(1).toLowerCase()).replace(/\brbi\b/gi, "RBI")}${p.rbi ? ` · ${p.rbi} RBI` : ""}`;
   root.querySelector("#pmeta").innerHTML = `<span>Play ${i + 1} of ${list.length}</span><span>·</span><span>${g ? fmtDate(g.date) + " " + gameLabel(g) : ""}</span><span>·</span><span>${p.half === "top" ? "Top" : "Bottom"} ${ordn(p.inn)}</span><span>·</span><span>${mmss(p.t)}–${mmss(p.t + p.len)}</span>`;
   // on this play
   const op = root.querySelector("#onPlay");
