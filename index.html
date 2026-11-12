@@ -126,6 +126,11 @@ if (location.hostname.endsWith("github.io")) location.replace("https://mikesway.
   .moments{display:flex;flex-wrap:wrap;gap:6px}
   .moment{background:#1b2336;border:1px solid #29334a;border-radius:6px;padding:5px 9px;font:700 11px Inter,sans-serif;letter-spacing:.04em}
   .unk{color:var(--muted);font-style:italic}
+  /* games left out of season stats (build_data.py NOT_COUNTED) */
+  .nc-note{color:var(--muted);font-size:12px}
+  .glog tr.nc-row td{opacity:.55}
+  .nc-tag{display:block;font:700 9px Inter,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .nc-box{background:#1b2336;border:1px dashed #3a4560;border-radius:8px;padding:9px 12px;color:#c4cbd8;font-size:13px}
 
   /* leaders */
   .leaders{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:16px}
@@ -256,13 +261,18 @@ const EMPTY = Object.fromEntries(KEYS.map(k => [k, 0]));
 const fmt1 = v => v == null ? "—" : (Math.round(v*10)/10).toFixed(1);
 
 // ---- season totals per player ----
+// Games marked counts:false (build_data.py NOT_COUNTED) are left out of every season stat, but still
+// show in the Games page, the players' game logs (marked "not counted") and the Film Room. Record counts them.
+const counts = g => g.counts !== false;
+const SG = DATA.games.filter(counts);
 const byId = {};
 const players = DATA.players.map(p => {
-  const games = DATA.games.filter(g => g.lines[p.id] || (g.def && g.def[p.id])).map(g => {
+  const allGames = DATA.games.filter(g => g.lines[p.id] || (g.def && g.def[p.id])).map(g => {
     const l = g.lines[p.id] || {...EMPTY, G:1, pas:[]}, d = g.def ? (g.def[p.id] || {PO:0,A:0,E:0,DP:0}) : null;
     const off = offPts(l), def = d ? defPts(d) : null;
     return {g, l, d, off, def, fp: off + (SHOW_DEFENSE ? (def || 0) : 0), pos: (g.pos && g.pos[p.id]) || []};
   });
+  const games = allGames.filter(x => counts(x.g));
   const tot = sumLines(games.map(x => x.l));
   const dg = games.filter(x => x.d);
   const D = {PO:0, A:0, E:0, DP:0}; dg.forEach(x => Object.keys(D).forEach(k => D[k] += x.d[k] || 0));
@@ -275,13 +285,14 @@ const players = DATA.players.map(p => {
     BEST: games.length ? Math.max(...games.map(x => x.fp)) : null, DEF: D, DG: dg.length, POS};
   const parts = p.name.trim().split(/\s+/);
   if (p.display && p.display.toUpperCase() === p.name.toUpperCase()) p.display = "";
-  const P = {...p, first: parts.length > 1 ? parts.slice(0,-1).join(" ") : parts[0], last: parts[parts.length-1], games, ...tot, ...rates(tot), ...fant};
+  const P = {...p, first: parts.length > 1 ? parts.slice(0,-1).join(" ") : parts[0], last: parts[parts.length-1], games, allGames, ...tot, ...rates(tot), ...fant};
   byId[p.id] = P; return P;
 });
 const qualified = players.filter(p => p.PA >= MIN_PA);
-const teamTot = sumLines(DATA.games.flatMap(g => Object.values(g.lines)));
+const teamTot = sumLines(SG.flatMap(g => Object.values(g.lines)));
 const W = DATA.games.filter(g => g.result === "W").length, L = DATA.games.filter(g => g.result === "L").length;
-const RS = DATA.games.reduce((a,g) => a + g.R[0], 0), RA = DATA.games.reduce((a,g) => a + g.R[1], 0);
+const RS = SG.reduce((a,g) => a + g.R[0], 0), RA = SG.reduce((a,g) => a + g.R[1], 0);
+const NOT_COUNTED_NOTE = DATA.games.filter(g => !counts(g)).map(g => `${shortDate(g.date)} ${g.home ? "vs" : "@"} ${g.oppShort || g.oppName}`).join(", ");
 
 // ---- percentile colors (same scale idea as the Turkey Bowl board) ----
 function pctClass(stat, v){ return pctClassPool(qualified.map(p => p[stat]).filter(x => x != null), v); }
@@ -363,7 +374,7 @@ function visible(){
 function render(){
   const list = visible();
   document.getElementById("summary").innerHTML =
-    `<span class="hl">${SEASON.toUpperCase()}</span> &nbsp; <b>${DATA.games.length}</b> games &nbsp;·&nbsp; <b>${players.length}</b> players &nbsp;·&nbsp; Sorted by <b>${view !== "table" ? "fantasy points per game" : sortKey === "order" ? "batting order" : sortKey === "name" ? "last name" : sortKey}</b>`;
+    `<span class="hl">${SEASON.toUpperCase()}</span> &nbsp; <b>${SG.length}</b> games${NOT_COUNTED_NOTE ? ` <span class="nc-note" title="Left out of season stats (incomplete game)">(${NOT_COUNTED_NOTE} not counted)</span>` : ""} &nbsp;·&nbsp; <b>${players.length}</b> players &nbsp;·&nbsp; Sorted by <b>${view !== "table" ? "fantasy points per game" : sortKey === "order" ? "batting order" : sortKey === "name" ? "last name" : sortKey}</b>`;
   const board = document.getElementById("board"); board.innerHTML = "";
   if (!DATA.games.length) { board.innerHTML = `<div class="empty">No games logged for ${SEASON} yet.</div>`; return; }
   if (!list.length) { board.innerHTML = `<div class="empty">No players match.</div>`; return; }
@@ -460,7 +471,7 @@ function renderTable(board, list){
   t.appendChild(tb);
   const tr = rates(teamTot);
   t.insertAdjacentHTML("beforeend", `<tfoot><tr><td></td><td class="left">Team</td>${COLS.map(([k,,rate]) =>
-    `<td class="${["2B","3B","SO","PA"].includes(k) ? "hide-sm" : ""}">${rate ? fmtRate(tr[k]) : k === "G" ? DATA.games.length : teamTot[k]}</td>`).join("")}</tr></tfoot>`);
+    `<td class="${["2B","3B","SO","PA"].includes(k) ? "hide-sm" : ""}">${rate ? fmtRate(tr[k]) : k === "G" ? SG.length : teamTot[k]}</td>`).join("")}</tr></tfoot>`);
   t.querySelectorAll("th.sortable").forEach(h => h.onclick = () => {
     const k = h.dataset.k; if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = 1; } render();
   });
@@ -514,6 +525,7 @@ function renderGames(){
         <span class="g-chev" style="${filmFor(g.id) ? "margin-left:14px" : ""}">Box score ▾</span>
       </div>
       <div class="g-body" ${gi === 0 ? "" : "hidden"}>
+        ${counts(g) ? "" : `<div class="nc-box">Not counted in season stats: ${g.noCountWhy || "incomplete game"}. The box score is still here, and the win still counts in the record.</div>`}
         <div style="overflow-x:auto"><table class="lsc"><thead><tr><th></th>${Array.from({length:n}, (_,i) => `<th>${i+1}</th>`).join("")}<th>R</th><th>H</th><th>E</th></tr></thead><tbody>${rows}</tbody></table></div>
         <div><div class="sec-t">Mike's Way batting</div><div style="overflow-x:auto"><table class="glog bx"><thead><tr><th>Player</th><th>AB</th><th>R</th><th>H</th><th>RBI</th><th>HR</th><th>BB</th><th style="text-align:left">At-bats</th></tr></thead><tbody></tbody><tfoot></tfoot></table></div></div>      </div>`;
     const tb = box.querySelector(".bx tbody");
@@ -601,19 +613,19 @@ function openCard(id){
   pc.querySelector(".hsx").replaceWith(headshot(p));
   pc.querySelector(".pc-close").onclick = closeCard;
   const wrap = pc.querySelector("#logWrap");
-  if (!p.games.length) wrap.innerHTML = `<div class="nodata">No games logged yet.</div>`;
+  if (!p.allGames.length) wrap.innerHTML = `<div class="nodata">No games logged yet.</div>`;
   else {
     const c = ["AB","R","H","2B","HR","RBI","BB"];
     const gpool = players.flatMap(x => x.games.map(y => +y.fp.toFixed(2)));
     wrap.innerHTML = `<div style="overflow-x:auto"><table class="glog"><thead><tr><th>Date</th><th>Opp</th><th>Res</th><th style="color:var(--accent)">FPTS</th>${SHOW_DEFENSE ? "<th>DEF</th>" : ""}${c.map(k => `<th>${k}</th>`).join("")}<th>AVG</th><th style="text-align:left">At-bats</th></tr></thead><tbody>${
-      p.games.map(({g, l, d, fp, def}) => `<tr><td>${shortDate(g.date)}</td><td style="text-align:center" title="${g.oppName}">${g.home ? "vs" : "@"} ${g.oppShort || g.oppName}</td>
+      p.allGames.map(({g, l, d, fp, def}) => `<tr${counts(g) ? "" : ` class="nc-row" title="${g.noCountWhy || "Not counted in season stats"}"`}><td>${shortDate(g.date)}${counts(g) ? "" : `<span class="nc-tag">not counted</span>`}</td><td style="text-align:center" title="${g.oppName}">${g.home ? "vs" : "@"} ${g.oppShort || g.oppName}</td>
         <td style="text-align:center;font-weight:700;color:${g.result==="W"?"var(--win)":"var(--loss)"}">${g.result} ${g.R[0]}-${g.R[1]}</td>
         <td style="text-align:center;font-weight:700"><span class="pcv ${pctClassPool(gpool, +fp.toFixed(2))}">${fmt1(fp)}</span></td>
         ${!SHOW_DEFENSE ? "" : `<td style="text-align:center" title="${d ? `${d.PO} PO, ${d.A} A, ${d.E} E${d.DP ? ", " + d.DP + " DP" : ""} = ${fmt1(def)} pts` : "Fielding not logged for this game"}">${d ? `${d.PO}-${d.A}-${d.E}` : `<span class="unk">—</span>`}</td>`}
         ${c.map(k => `<td style="text-align:center">${l[k]}</td>`).join("")}<td style="text-align:center">${fmtRate(rates(l).AVG)}</td>
         <td><div class="abs">${l.pas.map(abChip).join("") || `<span class="unk">ran only</span>`}${filmFor(g.id) && filmFor(g.id).plays.some(x => x.id === p.id) ? ` <a class="watch filmlink" href="#film/${g.id}/${p.id}" title="Watch ${p.first}'s at-bats">▶ Film</a>` : ""}</div></td></tr>`).join("")
     }</tbody><tfoot><tr><td colspan="3">Season</td><td style="text-align:center">${fmt1(p.FPT)}</td>${SHOW_DEFENSE ? `<td style="text-align:center">${p.DG ? `${p.DEF.PO}-${p.DEF.A}-${p.DEF.E}` : "—"}</td>` : ""}${c.map(k => `<td style="text-align:center">${p[k]}</td>`).join("")}<td style="text-align:center">${fmtRate(p.AVG)}</td><td></td></tr></tfoot></table></div>
-    <div class="foot-note">${SCORING_NOTE}${SHOW_DEFENSE ? " DEF = putouts-assists-errors." : ""}${SHOW_COLORS ? " FPTS color vs. every logged player-game." : ""}<br>Green = hit · purple = home run · blue = walk · small number = RBI · “?” = reached base before the camera was rolling.</div>`;
+    <div class="foot-note">${p.allGames.some(x => !counts(x.g)) ? `Season row leaves out games marked “not counted” (incomplete). ` : ""}${SCORING_NOTE}${SHOW_DEFENSE ? " DEF = putouts-assists-errors." : ""}${SHOW_COLORS ? " FPTS color vs. every logged player-game." : ""}<br>Green = hit · purple = home run · blue = walk · small number = RBI · “?” = reached base before the camera was rolling.</div>`;
   }
   pc.querySelectorAll(".filmlink").forEach(a => a.addEventListener("click", () => closeCard()));
   document.getElementById("ov").hidden = false;

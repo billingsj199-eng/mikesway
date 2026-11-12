@@ -586,7 +586,9 @@ const DATA = {
     }
    },
    "oppHasPA": false,
-   "moments": []
+   "moments": [],
+   "counts": false,
+   "noCountWhy": "Incomplete game: only Mike's Way at-bats were filmed (ended early on the 10-run rule)"
   },
   {
    "id": "2026-10-29-g2",

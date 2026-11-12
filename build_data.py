@@ -41,6 +41,12 @@ COURTESY = [
     ("2026-11-03-g2", 41, "15", "mw_unk"),        # possible; didn't score
 ]
 
+# Games left out of every season stat (totals, AVG/OPS, FPTS/G, leaders, team runs). They still show on the
+# site: Games page box score, players' game logs (marked "not counted") and the Film Room. Record still counts.
+NOT_COUNTED = {
+    "2026-10-29-g1": "Incomplete game: only Mike's Way at-bats were filmed (ended early on the 10-run rule)",
+}
+
 HIT_TB = {"1B": 1, "2B": 2, "3B": 3, "HR": 4}
 NO_AB = {"BB", "HBP", "SF", "SAC"}
 KEYS = ["G", "PA", "AB", "R", "H", "2B", "3B", "HR", "RBI", "BB", "SO", "SF", "HBP", "TB"]
@@ -127,6 +133,9 @@ for path in sorted(glob.glob(os.path.join(SRC, "games", "*.json"))):
         "oppHasPA": any(p["team"] == opp for p in g["pa"]),
         "moments": [m["text"] for m in g.get("moments", [])],
     })
+    if gid in NOT_COUNTED:
+        games[-1]["counts"] = False
+        games[-1]["noCountWhy"] = NOT_COUNTED[gid]
 
 # Fielding credits (defense.json, made from the play notes): only credits to a named player count.
 # defense.json plus any defense_*.json (one file per batch of games), merged.
