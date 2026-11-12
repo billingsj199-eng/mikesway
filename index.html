@@ -699,12 +699,54 @@ function ytReset(){
 function ytPlayer(){
   if (yt) return yt.ready;
   const holder = document.createElement("div"); ytBox.innerHTML = ""; ytBox.appendChild(holder);
+  // YouTube's own controls are off (they pop up every time a clip starts); a clear layer on top
+  // takes taps instead: tap = pause / play. A small ▶ shows only while paused.
+  ytBox.insertAdjacentHTML("beforeend", `<div class="yt-tap" aria-label="Play or pause"></div><div class="yt-cover"><div class="yt-cover-t"></div></div><div class="yt-paused"><span>▶</span></div>`);
+  ytBox.querySelector(".yt-tap").onclick = togglePlay;
   const me = {p: null};
   me.ready = ytApi().then(() => new Promise(res => {
-    me.p = new YT.Player(holder, {playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onReady: () => res(me.p)}});
+    me.p = new YT.Player(holder, {
+      playerVars: {playsinline: 1, rel: 0, modestbranding: 1, controls: 0, disablekb: 1, iv_load_policy: 3, fs: 0},
+      events: {onReady: () => res(me.p), onStateChange: syncPlayUI},
+    });
   }));
   yt = me; return me.ready;
 }
+// ---- our own play / pause (tap the video, the ⏯ buttons, or the space bar) ----
+function isPlaying(){
+  const box = document.getElementById("vbox"); if (!box) return false;
+  if (ytBox.parentNode === box && ytBox.style.display !== "none") { const p = ytP(); return !!p && [1, 3].includes(p.getPlayerState()); }
+  return !vid.paused;
+}
+function togglePlay(){
+  const yMode = ytBox.style.display !== "none" && ytBox.parentNode === document.getElementById("vbox");
+  if (yMode) { const p = ytP(); if (!p) return; isPlaying() ? p.pauseVideo() : p.playVideo(); }
+  else if (vid.getAttribute("src")) { vid.paused ? vid.play().catch(() => {}) : vid.pause(); }
+  setTimeout(syncPlayUI, 150);
+}
+// Between clips: a short black card with the play's name covers the jump, so YouTube's own
+// pause/play flash never shows. It lifts once the new clip is actually playing.
+let coverAt = 0;
+function coverClip(text){
+  const c = ytBox.querySelector(".yt-cover-t"); if (!c) return;
+  c.textContent = text; ytBox.classList.add("cover"); coverAt = Date.now();
+}
+function liftCover(force){
+  if (!ytBox.classList.contains("cover")) return;
+  const p = ytP(), age = Date.now() - coverAt;
+  if (force || age > 3000 || (p && p.getPlayerState() === 1 && age > 700)) ytBox.classList.remove("cover");
+}
+setInterval(() => liftCover(false), 100);
+function syncPlayUI(){
+  const playing = isPlaying(), p = ytP(), st = p ? p.getPlayerState() : -1;
+  // show our ▶ only when the viewer actually paused (not while loading / buffering a new clip)
+  ytBox.classList.toggle("paused", !!p && st === 2);
+  document.querySelectorAll("#ppBtn, #fsPP").forEach(b => { b.textContent = playing ? "⏸ Pause" : "▶ Play"; if (b.id === "fsPP") b.textContent = playing ? "⏸" : "▶"; });
+}
+vid.addEventListener("play", syncPlayUI); vid.addEventListener("pause", syncPlayUI);
+document.addEventListener("keydown", e => {
+  if (e.code === "Space" && !document.getElementById("pg-film").hidden && document.getElementById("vbox") && !/INPUT|SELECT|TEXTAREA|BUTTON/.test(e.target.tagName)) { e.preventDefault(); togglePlay(); }
+});
 function ytShow(id, t, play){
   ytWant = {id, t, play};
   if (ytPending) return;            // a request is already waiting; it will pick up this newer ytWant
@@ -715,7 +757,8 @@ function ytShow(id, t, play){
     ytPending = false;
     const w = ytWant; if (!w) return;
     if (ytLoaded !== w.id) { ytLoaded = w.id; w.play ? p.loadVideoById({videoId: w.id, startSeconds: w.t}) : p.cueVideoById({videoId: w.id, startSeconds: w.t}); }
-    else { p.seekTo(w.t, true); if (w.play) p.playVideo(); }
+    // already playing? just jump (calling playVideo again makes YouTube flash its pause/play icon)
+    else { p.seekTo(w.t, true); if (w.play && ![1, 3].includes(p.getPlayerState())) p.playVideo(); }
   });
 }
 function pauseAll(){ vid.pause(); ytWant = null; const p = ytP(); if (p) p.pauseVideo(); }
@@ -853,10 +896,11 @@ function renderViewer(autoplay){
       <div class="vstage" id="vstage">
         <div class="vbox" id="vbox"></div>
         <div class="fs-bar"><span class="fs-lbl" id="fsLbl"></span>
-          <button class="cbtn" id="fsPrev" aria-label="Previous play">⏮</button><button class="cbtn" id="fsNext" aria-label="Next play">⏭</button><button class="cbtn" id="fsExit" aria-label="Exit full screen">✕</button></div>
+          <button class="cbtn" id="fsPrev" aria-label="Previous play">⏮</button><button class="cbtn" id="fsPP" aria-label="Play or pause">⏸</button><button class="cbtn" id="fsNext" aria-label="Next play">⏭</button><button class="cbtn" id="fsExit" aria-label="Exit full screen">✕</button></div>
       </div>
       <div class="vctl">
         <button class="cbtn" id="prev">⏮ Prev</button>
+        <button class="cbtn" id="ppBtn">⏸ Pause</button>
         <button class="cbtn" id="replay">↻ Replay</button>
         <button class="cbtn" id="next">Next ⏭</button>
         <button class="cbtn" id="fsBtn">⛶ Full screen</button>
@@ -894,6 +938,8 @@ function renderViewer(autoplay){
   root.querySelector("#replay").onclick = () => showPlay(FS.idx, true);
   root.querySelector("#vAuto").onchange = e => FS.auto = e.target.checked;
   root.querySelector("#fsBtn").onclick = enterFS;
+  root.querySelector("#ppBtn").onclick = togglePlay;
+  root.querySelector("#fsPP").onclick = togglePlay;
   root.querySelector("#fsExit").onclick = exitFS;
   root.querySelector("#fsPrev").onclick = () => showPlay(FS.idx - 1, true);
   root.querySelector("#fsNext").onclick = () => showPlay(FS.idx + 1, true);
@@ -945,7 +991,10 @@ function showPlay(i, play){
   // video
   const mode = mediaMode(x);
   mountMedia(mode);
-  if (mode === "yt") ytShow(ytIdOf(x.f.game), p.t + 0.05, play);
+  if (mode === "yt") {
+    if (play) { ytPlayer(); coverClip(`${playLabel(x)} — ${p.result}`); } else liftCover(true);
+    ytShow(ytIdOf(x.f.game), p.t + 0.05, play);
+  }
   else if (mode === "file") {
     ytWant = null;
     const go = () => { vid.currentTime = p.t + 0.05; if (play) vid.play().catch(() => {}); };
