@@ -1,0 +1,865 @@
+{
+ "positions": {
+  "2026-10-29-g2": {
+   "35": [
+    "1B"
+   ],
+   "stamboulian": [
+    "2B",
+    "3B"
+   ],
+   "52": [
+    "3B"
+   ],
+   "2": [
+    "1B"
+   ],
+   "7": [
+    "RF",
+    "1B"
+   ],
+   "8": [
+    "P",
+    "2B"
+   ],
+   "5": [
+    "C"
+   ]
+  },
+  "2026-11-10": {
+   "8": [
+    "P"
+   ],
+   "35": [
+    "C",
+    "3B"
+   ],
+   "5": [
+    "3B"
+   ],
+   "7": [
+    "1B"
+   ],
+   "feretic": [
+    "SS"
+   ]
+  }
+ },
+ "position_notes": {
+  "2026-10-29-g2": {
+   "35": "1B innings 1,3,5 (inn 6 note has him 'at the fence', #7 at 1B)",
+   "stamboulian": "2B inn 1 (high); 3B inn 2 inferred from runner 'standing on 3B next to Slugger' (low)",
+   "52": "3B inn 1 (runner 'passing #52 at 3B')",
+   "2": "1B inn 2 ('purple #2 fielder off the bag')",
+   "7": "OF inn 2 (HR over his head), RF inn 4, 1B inn 6",
+   "8": "P inn 2, 2B inn 6",
+   "5": "C inn 1 (picks up ball at the plate)"
+  },
+  "2026-11-10": {
+   "8": "P inn 2",
+   "35": "3B inn 2 (PA 11) but catcher in inn 2 (PA 16) and inn 4 (PA 40) - conflicting",
+   "5": "3B inn 4",
+   "7": "1B inn 3 per 'MW 1B #7' (PA 31), but #7 never bats for MW in this game - doubtful",
+   "mw_B": "SS inn 3-4, matched by gray hoodie only; LF in inn 4 also wore a gray hoodie - low"
+  }
+ },
+ "plays": [
+  {
+   "game": "2026-10-29-g2",
+   "pa": 6,
+   "inning": 1,
+   "result": "2B",
+   "credits": [],
+   "why": "No out recorded: OLD LOG MISSED THIS PA. Swing and contact at 17.25 (batter at plate 15.5-17.5). Ball looped to shallow RF; #35 Billings "
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 7,
+   "inning": 1,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: 47.9 is a FOUL, not a fly out (old log wrong): ball carries over the 1B-side fence/dugout (visible in the air beyond the"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 8,
+   "inning": 1,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "low"
+    }
+   ],
+   "why": "#34 out at 1B; 1B empty except #35 Billings, glove out receiving the throw; ball path not filmed"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 9,
+   "inning": 1,
+   "result": "BB",
+   "credits": [],
+   "why": "No out recorded: Camera follows #34 back toward home 105-114 (plate itself not in frame). At 114.5-117.5 the bearded batter jogs/walks fr"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 10,
+   "inning": 1,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Swing at 130.8 (batter at left edge 129-130.5), ground ball up the middle; #00 jogs into 1B 135-139 and stands on it (al"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 11,
+   "inning": 1,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "stamboulian",
+     "pos": "2B",
+     "stat": "A",
+     "conf": "high"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "high"
+    }
+   ],
+   "why": "Ground ball to Slugger at 2B; his throw reaches #35 Billings, foot on 1B (4-3)"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 12,
+   "inning": 1,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Batter at plate 211.5; contact 212.1, ball to right side/outfield, Billings leaves 1B toward the hole then retreats; bat"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 13,
+   "inning": 1,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: (second-half review) Same batter at 237.3 and 254.0, so 238.2 (ball followed up the RF line to the corner/fence, batter "
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 14,
+   "inning": 1,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: (second-half review) Camera off field 273-279 (unseen pitches possible). Hit through the right side into RC at 292.2; 1B"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 15,
+   "inning": 1,
+   "result": "2B",
+   "credits": [],
+   "why": "No out recorded: (second-half review) Camera off the plate 306.5-331. Deep fly at 331.4, camera to the sky 332-334.5 then OF; #84 rounds "
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 16,
+   "inning": 1,
+   "result": "2B",
+   "credits": [],
+   "why": "No out recorded: Swing at the far left at 363.2-363.5; ball to LF/LC. Batter-runner runs through 1B 367.5-369.2 waved on by the 1B coach "
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 17,
+   "inning": 1,
+   "result": "?",
+   "credits": [],
+   "why": "No out recorded: Camera on Billings/1B 385-410 (no plate view). Old log's 410.2 'contact' is not confirmed (camera moving; a BD batter is"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 18,
+   "inning": 1,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "high"
+    }
+   ],
+   "why": "#35 Billings charges, fields it, steps back on 1B before the runner: 3U"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 28,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Ball to the right side; runner crosses 1B at ~26.5-27 with the purple #2 fielder off the bag and no throw arriving; he s"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 29,
+   "inning": 2,
+   "result": "2B",
+   "credits": [],
+   "why": "No out recorded: Drive to the outfield; the runner from 1B goes 1B->2B->3B (55-60) and is standing on 3B next to Slugger at 67-73.5. 1B i"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 30,
+   "inning": 2,
+   "result": "HR",
+   "credits": [],
+   "why": "No out recorded: 3-run home run (per the player); #7 Co turns and watches it carry over his head at 95"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 31,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: First pitch, ground ball to the right side; purple #2 fields it away from the bag and the runner crosses 1B at ~126.5 un"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 32,
+   "inning": 2,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Fly ball caught in the air (runner dives back); which fielder caught it not visible"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 33,
+   "inning": 2,
+   "result": "2B",
+   "credits": [],
+   "why": "No out recorded: drive into the RF corner; runner from 1B scores as the relay gets loose at the plate (177.5); batter stops on base (per "
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 34,
+   "inning": 2,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Out not on camera, inferred from 3-out inning"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 35,
+   "inning": 2,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "OF",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Fly to right side of outfield, catch off-frame; fielders jog in"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 45,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: In this file the camera is behind 1B in foul ground (#35 Billings is playing 1B; the man in the black hoodie, pink short"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 46,
+   "inning": 3,
+   "result": "?",
+   "credits": [],
+   "why": "No out recorded: Ball hit deep to left/center at about 127.7. The camera follows it out (128.5-131) to an outfielder (tan jacket) who pic"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 47,
+   "inning": 3,
+   "result": "?",
+   "credits": [],
+   "why": "No out recorded: Far view toward home 160-163.2. Contact about 163.4, ball to the left side/outfield, and the camera swings away (164-165"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 48,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Ground ball to the right side at about 196.2: Billings reaches for it (196.3) and the second baseman (gray hoodie) chase"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 49,
+   "inning": 3,
+   "result": "DP",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "2B",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "2B",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    },
+    {
+     "player": "?",
+     "pos": "2B",
+     "stat": "DP",
+     "conf": "low"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "DP",
+     "conf": "med"
+    }
+   ],
+   "why": "Infielder near 2B on the ground after diving play (read as line-out), Billings takes throw at 1B to double off #43; catch not seen"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 50,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Batter-runner runs up the line from home and through 1B past the coach and #43 (242.3-244.5), then is leading off 1B wit"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 51,
+   "inning": 3,
+   "result": "FC",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "2B",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Runner from 1B most likely forced at 2B (Billings not taking a throw); not seen, caught liner also possible"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 56,
+   "inning": 4,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "OF",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Fly ball to the outfield, catch not in frame"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 57,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: 80.4 foul (same batter back in box at 96). 107.0 hit to the outfield; batter stops at 1B (the base nearest the 1B-side c"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 58,
+   "inning": 4,
+   "result": "2B",
+   "credits": [],
+   "why": "No out recorded: Ball to the outfield; batter rounds 1B (175.7-176.3, past Co #7) and heads to 2B (177-178). 179.6-181.3 a runner crosses"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 59,
+   "inning": 4,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "C",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Foul fly not caught (#7 picks it up in RF corner); most likely 2-strike foul = out, catcher credited as on a K"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 60,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: First-pitch contact; batter jogs to and stands on 1B 245.5-251. The 2B runner's movement is not seen (scored or 3B unkno"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 61,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Number read clearly as 88 at 279. 285.3 contact; batter runs to and holds 1B (288-291), a runner moves up to 2B. Runs on"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 62,
+   "inning": 4,
+   "result": "?",
+   "credits": [],
+   "why": "No out recorded: First-pitch ball down the RF line to the corner (camera on the corner 307-310). 313.8-316.3 at least one runner crosses "
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 63,
+   "inning": 4,
+   "result": "PO",
+   "credits": [
+    {
+     "player": "7",
+     "pos": "RF",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Pop up; #7 settles under it without moving; catch not in frame (#7 was RF earlier this inning)"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 69,
+   "inning": 5,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "RF",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Fly to RF, Billings drifts out; RF (gray long sleeves) throws it back in; catch not seen"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 70,
+   "inning": 5,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "med"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "high"
+    }
+   ],
+   "why": "Grounder to right side; #35 Billings covers 1B, catches throw with foot on bag, beats runner"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 71,
+   "inning": 5,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "OF",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Fly ball, catch NOT seen; side retired"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 78,
+   "inning": 6,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "RF",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Fly toward right side, fielders in shallow RF; batter walks back = out; catch not seen clearly"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 79,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Camera on Billings at the fence 16-28 (earlier pitches possible, not listed). 30.75 ball to shallow right; RF dives/fiel"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 80,
+   "inning": 6,
+   "result": "FC",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "SS/3B",
+     "stat": "A",
+     "conf": "med"
+    },
+    {
+     "player": "8",
+     "pos": "2B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Throw from left side reaches the 2B fielder ahead of runner = force at 2B (#8 at 2B per note in same inning, PA 78)"
+  },
+  {
+   "game": "2026-10-29-g2",
+   "pa": 81,
+   "inning": 6,
+   "result": "FC",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "SS/3B",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "8",
+     "pos": "2B",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Liner/grounder to left side; runner pulls up beside the 2B fielder = most likely force at 2B (could be late out at 1B)"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 0,
+   "inning": 1,
+   "result": "K",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "C",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Foul pop with 2 strikes = out (league rule), not caught; catcher credited as on a K"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 1,
+   "inning": 1,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: First-pitch grounder to the left side; dark-hoodie MW infielder fields ~111.1, throws to 1B ~112.0 (bag out of frame). #"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 2,
+   "inning": 1,
+   "result": "PO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "high"
+    }
+   ],
+   "why": "Sky-high pop drops into the glove of an MW fielder on right side of infield near the RF line"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 3,
+   "inning": 1,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "LF",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "INFERRED fly/liner to left side, catch not seen"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 10,
+   "inning": 2,
+   "result": "E",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "SS",
+     "stat": "E",
+     "conf": "high"
+    }
+   ],
+   "why": "SS fields and throws high, 1B (purple) leaps, ball sails past: throwing error"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 11,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Hit to OF at 72.5; Conti rounds 3B ~76.5 and crosses home ~78.7; MW 3B #35 handles relay ~82. Batter at 1B ~93.5. From ~"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 12,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Ground ball past the pitcher (ball skipping toward CF at 124.1); courtesy runner (MS #2) goes 1B->2B (at 2B 127.3); Pugl"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 13,
+   "inning": 2,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Slow roller; pitcher #8 and 1B converge, tag/throw not clearly visible; out at 1B inferred"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 14,
+   "inning": 2,
+   "result": "PO",
+   "credits": [
+    {
+     "player": "8",
+     "pos": "P",
+     "stat": "PO",
+     "conf": "high"
+    }
+   ],
+   "why": "MW pitcher #8 McGowan settles under the pop and catches it"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 15,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Ground ball to the left side; courtesy runner MS #2 (for ms_greyshirt) rounds 3B 204.4-204.8 and scores; MW 3B fields an"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 16,
+   "inning": 2,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "35",
+     "pos": "C",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Pop high toward backstop; MW catcher #35 ends up holding the ball (caught foul pop or 2-strike foul out; catcher PO either way)"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 31,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "No out recorded: Swing/contact 15.5-15.7, camera pans to LF where MW outfielders field the ball 16.5-21; 22.5 green runner standing at 1B"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 32,
+   "inning": 3,
+   "result": "DP",
+   "credits": [
+    {
+     "player": "feretic",
+     "pos": "SS",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "feretic",
+     "pos": "SS",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "7",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    },
+    {
+     "player": "feretic",
+     "pos": "SS",
+     "stat": "DP",
+     "conf": "low"
+    },
+    {
+     "player": "7",
+     "pos": "1B",
+     "stat": "DP",
+     "conf": "med"
+    }
+   ],
+   "why": "SS (gray hoodie = mw_B's clothing) leaps and catches liner, throws to 1B to double off runner (6-3); 1B is 'MW 1B #7' per PA 31 same inning"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 33,
+   "inning": 3,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "feretic",
+     "pos": "SS",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "7",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "SS (gray hoodie) fields and throws across; 1B stretched with ball ahead of runner"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 40,
+   "inning": 4,
+   "result": "BB",
+   "credits": [],
+   "why": "No out recorded: Four pitches, all taken (no swing) and caught by catcher #35 at ~49.3, 57.3, 67.0, 74.3; after the 4th he drops the bat "
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 41,
+   "inning": 4,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "feretic",
+     "pos": "SS",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "SS (gray top) fields and throws to 1B; bang-bang, called out (6-3)"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 42,
+   "inning": 4,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "LF",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "High fly to shallow LF; LF (gray hoodie) under it; catch blurred/off-frame"
+  },
+  {
+   "game": "2026-11-10",
+   "pa": 43,
+   "inning": 4,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "med"
+    },
+    {
+     "player": "?",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Ground ball to left side; throw to 1B, 1B stretched, beats slow runner"
+  }
+ ],
+ "sanity_check": {
+  "2026-10-29-g2": {
+   "outs": 18,
+   "PO": 18
+  },
+  "2026-11-10": {
+   "outs": 12,
+   "PO": 12
+  }
+ }
+}

@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mike's Way Softball</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1220; --panel:#131a2a; --panel2:#182033; --row:#121929; --rowalt:#141c2d; --line:#232c40;
+    --ink:#e8ecf4; --muted:#8a94a8; --accent:#a78bfa; --team:#6D28D9; --win:#3fbf75; --loss:#ef5a4c;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  .seasonsel{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:9px 10px;font:600 14px Inter,sans-serif;margin-left:-4px}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:14px}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 16px 48px}
+  /* nav */
+  .topnav{background:#0a0f1b;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .topnav-in{max-width:1100px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:4px;overflow-x:auto}
+  .brand{font:700 17px Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase;margin-right:14px;white-space:nowrap;padding:14px 0}
+  .brand b{color:var(--accent)}
+  .navlink{color:var(--muted);text-decoration:none;font-weight:600;font-size:13px;padding:15px 12px;border-bottom:2px solid transparent;white-space:nowrap}
+  .navlink:hover{color:var(--ink)}
+  .navlink.on{color:#fff;border-bottom-color:var(--accent)}
+  /* header */
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:20px 0 14px}
+  h1{font-family:Oswald,sans-serif;font-weight:700;letter-spacing:.03em;text-transform:uppercase;margin:0;font-size:clamp(22px,4.5vw,32px)}
+  h1 span{color:var(--accent)}
+  .search{flex:1;max-width:340px;min-width:200px;background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:10px 14px;font:inherit}
+  .bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
+  .lbl{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-right:4px}
+  .btn{background:var(--panel);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:7px 13px;font:600 13px Inter,sans-serif;cursor:pointer}
+  .btn:hover{border-color:#3a4560}
+  .btn.on{background:#2e2150;border-color:#8a5cc7;color:#fff}
+  .summary{color:var(--muted);font-size:13px;padding:8px 0 12px;border-bottom:1px solid var(--line)}
+  .summary b{color:var(--ink)} .summary .hl{color:var(--accent);font-weight:700}
+  .rec{display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 16px}
+  .rec .tile{min-width:92px}
+
+  /* table */
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+  table{width:100%;border-collapse:collapse;background:var(--row)}
+  thead th{background:#0f1525;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:center;padding:12px 8px;border-bottom:1px solid var(--line);white-space:nowrap;user-select:none}
+  thead th.sortable{cursor:pointer} thead th.sortable:hover{color:var(--ink)}
+  thead th.sorted{color:var(--accent)}
+  thead th:nth-child(2){text-align:left}
+  tbody tr{border-bottom:1px solid var(--line)}
+  tbody tr:nth-child(even){background:var(--rowalt)}
+  tbody tr:hover{background:#1a2338}
+  td{padding:9px 8px;vertical-align:middle;text-align:center;white-space:nowrap}
+  td.num{width:40px;font-weight:700;font-size:15px;color:var(--muted)}
+  td.left{text-align:left}
+  td.rate{font-variant-numeric:tabular-nums;font-weight:600}
+  tfoot td{background:#1b2336;font-weight:700;border-top:2px solid #3a4560}
+  tr.prow td:first-child{box-shadow:inset 4px 0 0 var(--team)}
+  .player{display:flex;align-items:center;gap:12px;min-width:0}
+  .hs{width:38px;height:38px;border-radius:50%;flex:none;overflow:hidden;background:#232c40;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font:700 13px Inter,sans-serif;color:var(--accent)}
+  .hs img{width:100%;height:100%;object-fit:cover;display:block}
+  .hs.has-img{border:none;background:none;box-shadow:0 0 0 2px var(--accent)}
+  .pname{font-weight:600;font-size:15px;white-space:nowrap}
+  .psub{color:var(--muted);font-size:12px;margin-top:1px}
+  .pill{display:inline-block;min-width:30px;text-align:center;padding:3px 8px;border-radius:5px;font:700 12px Inter,sans-serif;
+    color:var(--tc,var(--accent));background:color-mix(in srgb,var(--tc,var(--accent)) 16%,transparent);border:1px solid color-mix(in srgb,var(--tc,var(--accent)) 40%,transparent)}
+  .plink{cursor:pointer}
+  .plink:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+  /* percentile colors */
+  .pcv{display:inline-block;min-width:48px;padding:4px 6px;border-radius:6px;text-align:center}
+  .pc-t10{background:#1d4d2e;color:#7ef0a6}
+  .pc-t25{background:#17301f;color:#a6dcb6}
+  .pc-mid{background:transparent}
+  .pc-b25{background:#3a2a14;color:#f2b46b}
+  .pc-b10{background:#4a1d1d;color:#ff8a80}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:11px;color:var(--muted);margin-top:10px}
+  .lg{display:inline-flex;align-items:center;gap:5px}
+  .lg i{display:inline-block;width:14px;height:10px;border-radius:3px}
+  .foot-note{color:#5f6a80;font-size:11px;margin-top:10px;line-height:1.5}
+
+  /* cards */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--team);border-radius:10px;padding:16px 12px 14px;text-align:center;position:relative;cursor:pointer}
+  .card:hover{border-color:#3a4560;border-top-color:var(--accent)}
+  .card .hs{width:84px;height:84px;margin:0 auto 10px;font-size:26px;border-width:3px}
+  .card .jn{position:absolute;top:8px;left:10px;font:700 18px Oswald,sans-serif;color:var(--accent)}
+  .card .bt{position:absolute;top:8px;right:8px}
+  .card .line{display:flex;justify-content:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+  .card .line div{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em}
+  .card .line b{display:block;color:var(--ink);font-size:15px;margin-top:2px}
+  .empty{color:var(--muted);text-align:center;padding:40px}
+
+  /* games */
+  .games{display:grid;gap:14px;margin-top:16px}
+  .game{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .g-head{display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;flex-wrap:wrap}
+  .g-res{font:700 22px Oswald,sans-serif;width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center}
+  .g-res.W{background:#16301f;color:var(--win)} .g-res.L{background:#3a1a1a;color:var(--loss)}
+  .g-score{font:700 22px Oswald,sans-serif;letter-spacing:.02em}
+  .g-opp{font-weight:600;font-size:15px}
+  .g-opp i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:1px}
+  .g-meta{color:var(--muted);font-size:12px;margin-top:2px}
+  .g-chev{margin-left:auto;color:var(--muted);font-size:13px;font-weight:600}
+  .g-body{border-top:1px solid var(--line);padding:14px 16px 16px;display:grid;gap:14px}
+  .g-body[hidden]{display:none}
+  .lsc{border-collapse:collapse;background:transparent;width:auto;min-width:320px}
+  .lsc th,.lsc td{padding:6px 10px;text-align:center;border-bottom:1px solid var(--line)}
+  .lsc th{background:#0f1525;color:var(--muted);font-size:11px}
+  .lsc td:first-child,.lsc th:first-child{text-align:left;font-weight:700}
+  .lsc .tot{font-weight:700;color:#fff;background:#1b2336}
+  .sec-t{font:700 12px Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  .abs{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-start}
+  .ab{font:700 11px Inter,sans-serif;padding:2px 6px;border-radius:4px;background:#1f2738;color:#c4cbd8}
+  .ab.hit{background:#16301f;color:#7ef0a6} .ab.hr{background:#3b2a63;color:#d6c6ff} .ab.bb{background:#1a2a40;color:#8cc4ff} .ab.k{background:#3a1a1a;color:#ff9a90}
+  .moments{display:flex;flex-wrap:wrap;gap:6px}
+  .moment{background:#1b2336;border:1px solid #29334a;border-radius:6px;padding:5px 9px;font:700 11px Inter,sans-serif;letter-spacing:.04em}
+  .unk{color:var(--muted);font-style:italic}
+
+  /* leaders */
+  .leaders{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:16px}
+  .lb{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+  .lb h3{margin:0 0 10px;font:700 14px Oswald,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  .lb .r{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .lb .r:last-child{border-bottom:0}
+  .lb .r .n{width:18px;color:var(--muted);font-weight:700}
+  .lb .r .hs{width:32px;height:32px;font-size:11px}
+  .lb .r .nm{flex:1;font-weight:600}
+  .lb .r .v{font:700 16px Inter,sans-serif}
+  .lb .r.first .v{color:var(--accent)}
+
+  /* tiles */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px}
+  .tile{background:#1b2336;border:1px solid #29334a;border-radius:8px;padding:9px 6px;text-align:center}
+  .tile .k{font:700 11px Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .tile .v{font:700 20px Inter,sans-serif;margin-top:3px}
+  .tile.good{background:#221a3a;border-color:#4c3590} .tile.good .v{color:#c4b5fd}
+
+  /* player modal */
+  .ov{position:fixed;inset:0;background:rgba(5,8,15,.72);backdrop-filter:blur(3px);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:32px 16px;overflow:auto}
+  .ov[hidden]{display:none}
+  .pc{width:100%;max-width:800px;background:#151c2c;border:1px solid #2a3449;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);overflow:hidden}
+  .pc-head{display:flex;gap:20px;align-items:center;padding:22px;border-bottom:1px solid var(--line);position:relative;background:linear-gradient(120deg,color-mix(in srgb,var(--team) 30%,transparent),transparent 60%)}
+  .pc-head .hs{width:104px;height:104px;font-size:32px;border-width:3px}
+  .pc-name{font:700 30px/1.05 Oswald,sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:0 0 8px;padding-right:30px}
+  .pc-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;color:#c4cbd8;font-size:14px}
+  .pc-meta .dot{color:#55607a}
+  .pc-close{position:absolute;top:14px;right:16px;background:none;border:0;color:var(--muted);font-size:22px;cursor:pointer;line-height:1}
+  .pc-close:hover{color:#fff}
+  .pc-body{padding:18px 22px 22px}
+  .glog{width:100%;border-collapse:collapse;background:transparent;font-size:13px}
+  .glog th{background:#0f1525;color:var(--muted);font-size:11px;padding:9px 8px;text-align:center;border-bottom:1px solid var(--line)}
+  .glog td{padding:9px 8px;border-bottom:1px solid var(--line)}
+  .glog th:first-child,.glog td:first-child{text-align:left}
+  .nodata{color:var(--muted);text-align:center;padding:28px 10px;border:1px dashed var(--line);border-radius:8px}
+  @media (max-width:600px){ .tiles{grid-template-columns:repeat(2,1fr)} .pc-head{flex-direction:column;text-align:center} .pc-meta{justify-content:center} .hide-sm{display:none} td{padding:8px 6px} }
+</style>
+<link rel="stylesheet" href="film.css">
+</head>
+<body>
+<nav class="topnav">
+  <div class="topnav-in">
+    <span class="brand">🥎 Mike's <b>Way</b></span>
+    <a href="#stats" class="navlink" data-page="stats">Stats</a>
+    <a href="#games" class="navlink" data-page="games">Games</a>
+    <a href="#leaders" class="navlink" data-page="leaders">Leaders</a>
+    <a href="#film" class="navlink" data-page="film">Film Room</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <header>
+    <h1>Mike's Way <span id="seasonLbl"></span></h1>
+    <select id="seasonSel" class="seasonsel" aria-label="Season"></select>
+    <input id="q" class="search" type="search" placeholder="Search player…">
+  </header>
+  <div class="rec" id="rec"></div>
+
+  <section id="pg-stats">
+    <div class="bar"><span class="lbl">View</span>
+      <button class="btn view on" data-view="fantasy">Rankings</button>
+      <button class="btn view" data-view="table">Batting Stats</button>
+      <button class="btn view" data-view="fielding" id="fieldBtn">Fielding</button>
+      <button class="btn view" data-view="cards">Player Cards</button>
+    </div>
+    <div class="summary" id="summary"></div>
+    <div id="board" style="margin-top:14px"></div>
+  </section>
+  <section id="pg-games" hidden><div class="games" id="games"></div></section>
+  <section id="pg-leaders" hidden><div class="leaders" id="leaders"></div></section>
+</div>
+<section id="pg-film" hidden><div id="filmRoot"></div></section>
+<div class="ov" id="ov" hidden><div class="pc" id="pc" role="dialog" aria-modal="true"></div></div>
+
+<script src="data.js"></script>
+<script src="film.js"></script>
+<script src="youtube.js"></script>
+<script>
+// Stats come from data.js, which build_data.py makes from the Softball Stats game logs.
+// ---- seasons ----
+// Everything below only sees the chosen season (newest by default; ?season=Fall%202026 picks one).
+const SEASONS = (DATA.seasons && DATA.seasons.length) ? DATA.seasons : ["2026"];
+const SEASON = (() => { const q = new URLSearchParams(location.search).get("season"); if (SEASONS.includes(q)) return q;
+  const played = SEASONS.filter(n => DATA.games.some(g => g.season === n));   // default: newest season with a game
+  return played.length ? played[played.length - 1] : SEASONS[SEASONS.length - 1]; })();
+DATA.games = DATA.games.filter(g => (g.season || SEASONS[0]) === SEASON);
+{ const ids = new Set(DATA.games.flatMap(g => [...Object.keys(g.lines), ...Object.keys(g.def || {})]));
+  DATA.players = DATA.players.filter(p => ids.has(p.id)); }
+if (typeof FILMS !== "undefined") { const keep = new Set(DATA.games.map(g => g.id)); for (let i = FILMS.length - 1; i >= 0; i--) if (!keep.has(FILMS[i].game)) FILMS.splice(i, 1); }
+function setSeason(name){
+  const q = new URLSearchParams(location.search); q.set("season", name); q.delete("player");
+  location.href = location.pathname + "?" + q.toString() + location.hash;
+}
+// Photos: images/first-last.jpg (lowercase, hyphenated), e.g. images/big-daddy.jpg.
+const MIN_PA = 5;          // plate appearances needed for rate-stat colors and leaderboards
+const MIN_SAMPLE = 6;      // qualified players needed before colors turn on
+
+const fmtRate = v => v == null ? "—" : v.toFixed(3).replace(/^0/, "");
+const slug = n => n.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const shortDate = d => { const [y, m, dd] = d.split("-"); return `${+m}/${+dd}/${y.slice(2)}`; };   // 2026-10-29 -> 10/29/26
+const fmtDate = d => new Date(d + "T12:00:00").toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric"});
+const KEYS = ["G","PA","AB","R","H","2B","3B","HR","RBI","BB","SO","SF","HBP","TB"];
+
+function rates(l){
+  const obpD = l.AB + l.BB + l.HBP + l.SF;
+  const avg = l.AB ? l.H / l.AB : null, slg = l.AB ? l.TB / l.AB : null;
+  const obp = obpD ? (l.H + l.BB + l.HBP) / obpD : null;
+  return {AVG:avg, OBP:obp, SLG:slg, OPS:(obp != null && slg != null) ? obp + slg : null};
+}
+const sumLines = ls => { const t = Object.fromEntries(KEYS.map(k => [k, 0])); ls.forEach(l => KEYS.forEach(k => t[k] += l[k] || 0)); return t; };
+
+// ---- fantasy scoring ----
+// Defense is kept in the data (defense*.json -> data.js) but hidden everywhere on the site until
+// there is an easy way to log it. Set to true to bring back fielding columns, points and film credits.
+const SHOW_DEFENSE = false;
+// Hitting = DraftKings MLB hitter scoring. Fielding = custom (no fantasy standard exists);
+// putouts are kept small because 1B gets one on almost every groundout.
+const SCORING = {
+  off: {"1B":3, "2B":5, "3B":8, HR:10, R:2, RBI:2, BB:2, HBP:2},
+  def: {PO:0.5, A:1, DP:1, E:-1},
+};
+const offPts = l => { const s = l.H - l["2B"] - l["3B"] - l.HR, S = SCORING.off;
+  return s*S["1B"] + l["2B"]*S["2B"] + l["3B"]*S["3B"] + l.HR*S.HR + l.R*S.R + l.RBI*S.RBI + l.BB*S.BB + (l.HBP||0)*S.HBP; };
+const defPts = d => d ? Object.entries(SCORING.def).reduce((a,[k,v]) => a + (d[k]||0)*v, 0) : 0;
+const EMPTY = Object.fromEntries(KEYS.map(k => [k, 0]));
+const fmt1 = v => v == null ? "—" : (Math.round(v*10)/10).toFixed(1);
+
+// ---- season totals per player ----
+const byId = {};
+const players = DATA.players.map(p => {
+  const games = DATA.games.filter(g => g.lines[p.id] || (g.def && g.def[p.id])).map(g => {
+    const l = g.lines[p.id] || {...EMPTY, G:1, pas:[]}, d = g.def ? (g.def[p.id] || {PO:0,A:0,E:0,DP:0}) : null;
+    const off = offPts(l), def = d ? defPts(d) : null;
+    return {g, l, d, off, def, fp: off + (SHOW_DEFENSE ? (def || 0) : 0), pos: (g.pos && g.pos[p.id]) || []};
+  });
+  const tot = sumLines(games.map(x => x.l));
+  const dg = games.filter(x => x.d);
+  const D = {PO:0, A:0, E:0, DP:0}; dg.forEach(x => Object.keys(D).forEach(k => D[k] += x.d[k] || 0));
+  const OFFG = games.length ? games.reduce((a,x) => a + x.off, 0) / games.length : null;
+  const DEFG = dg.length ? dg.reduce((a,x) => a + x.def, 0) / dg.length : null;
+  const posCount = {}; games.forEach(x => x.pos.forEach(ps => posCount[ps] = (posCount[ps]||0) + 1));
+  const POS = Object.entries(posCount).sort((a,b) => b[1]-a[1]).map(x => x[0]);
+  const DEFPTS = dg.length ? dg.reduce((a,x) => a + x.def, 0) : null;
+  const fant = {PO: D.PO, AST: D.A, DEFPTS, OFFG, DEFG, FPG: OFFG == null ? null : OFFG + (SHOW_DEFENSE ? (DEFG || 0) : 0), FPT: games.reduce((a,x) => a + x.fp, 0),
+    BEST: games.length ? Math.max(...games.map(x => x.fp)) : null, DEF: D, DG: dg.length, POS};
+  const parts = p.name.trim().split(/\s+/);
+  if (p.display && p.display.toUpperCase() === p.name.toUpperCase()) p.display = "";
+  const P = {...p, first: parts.length > 1 ? parts.slice(0,-1).join(" ") : parts[0], last: parts[parts.length-1], games, ...tot, ...rates(tot), ...fant};
+  byId[p.id] = P; return P;
+});
+const qualified = players.filter(p => p.PA >= MIN_PA);
+const teamTot = sumLines(DATA.games.flatMap(g => Object.values(g.lines)));
+const W = DATA.games.filter(g => g.result === "W").length, L = DATA.games.filter(g => g.result === "L").length;
+const RS = DATA.games.reduce((a,g) => a + g.R[0], 0), RA = DATA.games.reduce((a,g) => a + g.R[1], 0);
+
+// ---- percentile colors (same scale idea as the Turkey Bowl board) ----
+function pctClass(stat, v){ return pctClassPool(qualified.map(p => p[stat]).filter(x => x != null), v); }
+// Green/red ranking colors are off for now (nobody needs to feel bad). Set to true to bring them back.
+const SHOW_COLORS = false;
+function pctClassPool(pool, v){
+  if (!SHOW_COLORS) return "";
+  if (v == null || pool.length < MIN_SAMPLE) return "";
+  let lo = 0, eq = 0; pool.forEach(x => { if (x < v) lo++; else if (x === v) eq++; });
+  const r = (lo + eq / 2) / pool.length;
+  return r >= .90 ? "pc-t10" : r >= .75 ? "pc-t25" : r >= .25 ? "pc-mid" : r >= .10 ? "pc-b25" : "pc-b10";
+}
+
+function headshot(p){
+  const el = document.createElement("div"); el.className = "hs";
+  const ini = p ? ((p.first[0]||"") + (p.first === p.last ? "" : p.last[0]||"")) : "?";
+  el.textContent = ini;
+  if (!p) return el;
+  const tries = ["jpg","png","jpeg","webp"].map(e => `images/${slug(p.name)}.${e}`);
+  let i = 0; const img = new Image(); img.alt = p.name;
+  img.onload = () => { el.textContent = ""; el.appendChild(img); el.classList.add("has-img"); };
+  img.onerror = () => { if (++i < tries.length) img.src = tries[i]; };
+  img.src = tries[0];
+  return el;
+}
+function linkName(el, id){ el.classList.add("plink"); el.addEventListener("click", e => { e.stopPropagation(); openCard(id); }); }
+const numTxt = p => p.num ? "#" + p.num : "";
+const batsTxt = b => b === "L" ? "Bats L" : b === "R" ? "Bats R" : b === "S" ? "Switch" : "";
+
+// ---- header record ----
+document.getElementById("rec").innerHTML = [
+  ["Record", `${W}-${L}`, true], ["Runs for", RS], ["Runs against", RA], ["Run diff", (RS-RA > 0 ? "+" : "") + (RS-RA)],
+  ["Team AVG", fmtRate(rates(teamTot).AVG)], ["Team HR", teamTot.HR],
+].map(([k,v,good]) => `<div class="tile ${good?"good":""}"><div class="k">${k}</div><div class="v">${v}</div></div>`).join("");
+
+// ---- pages ----
+function showPage(){
+  const parts = (location.hash.replace("#","") || "stats").split("/"), pg = parts[0];
+  if (pg === "film") filmRoute(parts[1], parts[2], parts[3]); else vid.pause();
+  ["stats","games","leaders","film"].forEach(k => document.getElementById("pg-" + k).hidden = k !== pg);
+  document.querySelectorAll(".navlink").forEach(a => a.classList.toggle("on", a.dataset.page === pg));
+  document.querySelector(".wrap > header").hidden = pg !== "stats";
+  document.getElementById("rec").hidden = pg !== "stats";
+  if (pg !== "stats") document.querySelector(".wrap").style.paddingTop = "18px"; else document.querySelector(".wrap").style.paddingTop = "";
+}
+window.addEventListener("hashchange", showPage);
+
+// ---- stats page ----
+let view = "fantasy", sortKey = "order", sortDir = 1;
+// fantasy rank: FPTS per game, best first
+const ranked = [...players].sort((a,b) => (b.FPG ?? -1e9) - (a.FPG ?? -1e9) || a.last.localeCompare(b.last));
+ranked.forEach((p,i) => p.rank = p.FPG == null ? null : i + 1);
+const lastLineup = DATA.games.length ? DATA.games[DATA.games.length-1].order : [];
+const orderIdx = id => { const i = lastLineup.indexOf(id); return i < 0 ? 99 + players.findIndex(p => p.id === id) : i; };
+document.querySelectorAll(".btn.view").forEach(b => b.onclick = () => {
+  view = b.dataset.view; document.querySelectorAll(".btn.view").forEach(x => x.classList.toggle("on", x === b)); render();
+});
+document.getElementById("q").addEventListener("input", render);
+
+const COLS = [["G","G"],["PA","PA"],["AB","AB"],["R","R"],["H","H"],["2B","2B"],["3B","3B"],["HR","HR"],["RBI","RBI"],["BB","BB"],["SO","SO"],
+  ["AVG","AVG",1],["OBP","OBP",1],["SLG","SLG",1],["OPS","OPS",1]];
+
+function visible(){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const list = players.filter(p => !q || (p.name + " " + p.display + " " + p.num).toLowerCase().includes(q));
+  return list.sort((a,b) => {
+    if (view === "fielding") return (b.DEFPTS ?? -1e9) - (a.DEFPTS ?? -1e9) || (b.DEF.PO + b.DEF.A) - (a.DEF.PO + a.DEF.A) || a.last.localeCompare(b.last);
+    if (view !== "table") return (a.rank ?? 99) - (b.rank ?? 99);
+    if (sortKey === "order") return orderIdx(a.id) - orderIdx(b.id);
+    if (sortKey === "name") return sortDir * a.last.localeCompare(b.last);
+    const av = a[sortKey], bv = b[sortKey];
+    if (av == null && bv == null) return 0; if (av == null) return 1; if (bv == null) return -1;
+    return sortDir * (bv - av) || orderIdx(a.id) - orderIdx(b.id);
+  });
+}
+
+function render(){
+  const list = visible();
+  document.getElementById("summary").innerHTML =
+    `<span class="hl">${SEASON.toUpperCase()}</span> &nbsp; <b>${DATA.games.length}</b> games &nbsp;·&nbsp; <b>${players.length}</b> players &nbsp;·&nbsp; Sorted by <b>${view !== "table" ? "fantasy points per game" : sortKey === "order" ? "batting order" : sortKey === "name" ? "last name" : sortKey}</b>`;
+  const board = document.getElementById("board"); board.innerHTML = "";
+  if (!DATA.games.length) { board.innerHTML = `<div class="empty">No games logged for ${SEASON} yet.</div>`; return; }
+  if (!list.length) { board.innerHTML = `<div class="empty">No players match.</div>`; return; }
+  view === "fantasy" ? renderFantasy(board, list) : view === "fielding" ? renderFielding(board, list) : view === "table" ? renderTable(board, list) : renderCards(board, list);
+}
+
+const FP_LEGEND = `<span class="lg"><i class="pc-t10"></i>Top 10%</span><span class="lg"><i class="pc-t25"></i>Top 25%</span><span class="lg"><i style="background:#1f2738"></i>Middle 50%</span><span class="lg"><i class="pc-b25"></i>Bottom 25%</span><span class="lg"><i class="pc-b10"></i>Bottom 10%</span>`;
+const SCORING_NOTE = `Hitting (DraftKings): 1B 3 · 2B 5 · 3B 8 · HR 10 · R 2 · RBI 2 · BB 2.` + (SHOW_DEFENSE ? ` Fielding (custom): putout +0.5 · assist +1 · double play +1 · error −1.` : "");
+function renderFielding(board, all){
+  // only players credited with at least one play
+  const list = all.filter(p => p.DEF.PO + p.DEF.A + p.DEF.E + p.DEF.DP > 0);
+  const hidden = all.length - list.length;
+  if (!list.length) { board.innerHTML = `<div class="empty">No fielding plays credited yet.</div>`; return; }
+  const wrap = document.createElement("div"); wrap.className = "tblwrap";
+  const t = document.createElement("table");
+  t.innerHTML = `<thead><tr><th>#</th><th>Player</th><th>Pos</th><th>G</th><th>PO</th><th>A</th><th>E</th><th>DP</th><th>FLD%</th><th style="color:var(--accent)">DEF PTS</th><th>DEF/G</th></tr></thead>`;
+  const tb = document.createElement("tbody");
+  let k = 0;
+  list.forEach(p => {
+    const D = p.DEF, ch = D.PO + D.A + D.E, fld = ch ? (D.PO + D.A) / ch : null;
+    const tr = document.createElement("tr"); tr.className = "prow";
+    tr.innerHTML = `<td class="num" style="color:var(--ink)">${p.DG ? ++k : "–"}</td>
+      <td class="left"><div class="player"><span class="hsx"></span><div><div class="pname">${p.name}</div><div class="psub">${p.num ? "#" + p.num : "&nbsp;"}</div></div></div></td>
+      <td><span class="pill" style="--tc:#4b9ce8">${posTxt(p)}</span></td>
+      <td>${p.DG || "—"}</td><td>${p.DG ? D.PO : "—"}</td><td>${p.DG ? D.A : "—"}</td><td>${p.DG ? D.E : "—"}</td><td>${p.DG ? D.DP : "—"}</td>
+      <td class="rate">${fld == null ? "—" : fmtRate(fld)}</td>
+      <td style="font-weight:700">${p.DG ? fmt1(p.DEFPTS) : "—"}</td><td>${fmt1(p.DEFG)}</td>`;
+    tr.querySelector(".hsx").replaceWith(headshot(p));
+    linkName(tr.querySelector(".pname"), p.id); linkName(tr.querySelector(".hs"), p.id);
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  const T = {PO:0, A:0, E:0, DP:0}; players.forEach(p => Object.keys(T).forEach(k2 => T[k2] += p.DEF[k2]));
+  const un = DATA.games.reduce((a, g) => a + (g.defUnassigned || 0), 0);
+  t.insertAdjacentHTML("beforeend", `<tfoot><tr><td></td><td class="left">Named fielders</td><td></td><td>${DATA.games.filter(g => g.def).length}</td><td>${T.PO}</td><td>${T.A}</td><td>${T.E}</td><td>${T.DP}</td><td></td><td></td><td></td></tr></tfoot>`);
+  wrap.appendChild(t); board.appendChild(wrap);
+  const dg = DATA.games.filter(g => g.def);
+  board.insertAdjacentHTML("beforeend", `<div class="foot-note">${hidden ? `Showing players credited with a play · ${hidden} others with none yet are hidden.<br>` : ""}PO = putouts · A = assists · E = errors · DP = double plays turned · FLD% = (PO + A) ÷ (PO + A + E) · DEF PTS: putout +0.5 · assist +1 · double play +1 · error −1.<br>
+    Fielding comes from the video play notes for ${dg.length} of ${DATA.games.length} games (${dg.map(g => fmtDate(g.date)).join(", ")}). ${un} more credits couldn't be tied to a player — mostly outfield catches the camera couldn't make out — so outfielders are under-counted. Knowing who played each position per game would fill most of these in.</div>`);
+}
+
+function posTxt(p){ return p.POS.length ? p.POS.slice(0,2).join("/") : "—"; }
+
+function renderFantasy(board, list){
+  const wrap = document.createElement("div"); wrap.className = "tblwrap";
+  const t = document.createElement("table");
+  t.innerHTML = `<thead><tr><th>#</th><th>Player</th>${SHOW_DEFENSE ? "<th>Pos</th>" : ""}<th style="color:var(--accent)">FPTS/G</th>${SHOW_DEFENSE ? "<th>OFF/G</th><th>DEF/G</th>" : ""}<th class="hide-sm">G</th><th class="hide-sm">Total</th><th class="hide-sm">H-AB</th><th class="hide-sm">R</th><th class="hide-sm">RBI</th><th class="hide-sm">HR</th>${SHOW_DEFENSE ? `<th class="hide-sm">PO-A-E</th>` : ""}</tr></thead>`;
+  const tb = document.createElement("tbody");
+  list.forEach(p => {
+    const tr = document.createElement("tr"); tr.className = "prow";
+    const c = p.PA >= MIN_PA ? pctClass("FPG", p.FPG) : "";
+    tr.innerHTML = `<td class="num" style="color:var(--ink)">${p.rank ?? "–"}</td>
+      <td class="left"><div class="player"><span class="hsx"></span><div><div style="display:flex;align-items:center;gap:8px"><span class="pname">${p.name}</span>${p.num ? `<span class="pill">#${p.num}</span>` : ""}</div>
+        <div class="psub">${[p.display, batsTxt(p.bats)].filter(Boolean).join(" · ") || "&nbsp;"}</div></div></div></td>
+      ${SHOW_DEFENSE ? `<td><span class="pill" style="--tc:#4b9ce8">${posTxt(p)}</span></td>` : ""}
+      <td style="font-weight:700"><span class="pcv ${c}">${fmt1(p.FPG)}</span></td>
+      ${SHOW_DEFENSE ? `<td>${fmt1(p.OFFG)}</td><td>${p.DEFG == null ? `<span class="unk">—</span>` : fmt1(p.DEFG)}</td>` : ""}
+      <td class="hide-sm">${p.games.length}</td>
+      <td class="hide-sm">${fmt1(p.FPT)}</td>
+      <td class="hide-sm">${p.H}-${p.AB}</td><td class="hide-sm">${p.R}</td><td class="hide-sm">${p.RBI}</td><td class="hide-sm">${p.HR}</td>
+      ${SHOW_DEFENSE ? `<td class="hide-sm">${p.DG ? `${p.DEF.PO}-${p.DEF.A}-${p.DEF.E}` : "—"}</td>` : ""}`;
+    tr.querySelector(".hsx").replaceWith(headshot(p));
+    linkName(tr.querySelector(".pname"), p.id); linkName(tr.querySelector(".hs"), p.id);
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb); wrap.appendChild(t); board.appendChild(wrap);
+  const defGames = DATA.games.filter(g => g.def).length;
+  board.insertAdjacentHTML("beforeend", `${SHOW_COLORS ? `<div class="legend">FPTS/G color vs. teammates with ${MIN_PA}+ PA: ${FP_LEGEND}</div>` : ""}
+    <div class="foot-note">${SHOW_DEFENSE ? "FPTS/G = hitting points per game + fielding points per game." : "FPTS/G = hitting points per game."} ${SCORING_NOTE}${SHOW_DEFENSE ? `<br>
+    Fielding comes from the video play notes, so it only covers games where the other team's at-bats were logged (${defGames} of ${DATA.games.length}) and plays where the fielder could be identified. DEF/G averages only those games.` : ""}</div>`);
+}
+
+function renderTable(board, list){
+  const wrap = document.createElement("div"); wrap.className = "tblwrap";
+  const t = document.createElement("table");
+  const th = (k, l, cls="") => `<th class="sortable ${cls} ${sortKey===k?"sorted":""}" data-k="${k}">${l}${sortKey===k && k!=="order" ? (sortDir>0?" ▾":" ▴") : ""}</th>`;
+  t.innerHTML = `<thead><tr>${th("order","#")}${th("name","Player")}${COLS.map(([k,l]) => th(k,l, ["2B","3B","SO","PA"].includes(k) ? "hide-sm" : "")).join("")}</tr></thead>`;
+  const tb = document.createElement("tbody");
+  list.forEach(p => {
+    const tr = document.createElement("tr"); tr.className = "prow";
+    tr.innerHTML = `<td class="num">${p.num || "–"}</td>
+      <td class="left"><div class="player"><span class="hsx"></span><div><div class="pname">${p.name}</div>
+        <div class="psub">${[p.display, batsTxt(p.bats)].filter(Boolean).join(" · ")}</div></div></div></td>` +
+      COLS.map(([k,,rate]) => {
+        const hide = ["2B","3B","SO","PA"].includes(k) ? "hide-sm" : "";
+        if (!rate) return `<td class="${hide}">${p[k]}</td>`;
+        const c = p.PA >= MIN_PA ? pctClass(k, p[k]) : "";
+        return `<td class="rate"><span class="pcv ${c}">${fmtRate(p[k])}</span></td>`;
+      }).join("");
+    tr.querySelector(".hsx").replaceWith(headshot(p));
+    linkName(tr.querySelector(".pname"), p.id); linkName(tr.querySelector(".hs"), p.id);
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  const tr = rates(teamTot);
+  t.insertAdjacentHTML("beforeend", `<tfoot><tr><td></td><td class="left">Team</td>${COLS.map(([k,,rate]) =>
+    `<td class="${["2B","3B","SO","PA"].includes(k) ? "hide-sm" : ""}">${rate ? fmtRate(tr[k]) : k === "G" ? DATA.games.length : teamTot[k]}</td>`).join("")}</tr></tfoot>`);
+  t.querySelectorAll("th.sortable").forEach(h => h.onclick = () => {
+    const k = h.dataset.k; if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = 1; } render();
+  });
+  wrap.appendChild(t); board.appendChild(wrap);
+  board.insertAdjacentHTML("beforeend", `${!SHOW_COLORS ? "" : `<div class="legend">AVG / OBP / SLG / OPS color vs. teammates with ${MIN_PA}+ PA:
+    <span class="lg"><i class="pc-t10"></i>Top 10%</span><span class="lg"><i class="pc-t25"></i>Top 25%</span><span class="lg"><i style="background:#1f2738"></i>Middle 50%</span><span class="lg"><i class="pc-b25"></i>Bottom 25%</span><span class="lg"><i class="pc-b10"></i>Bottom 10%</span></div>`}
+    <div class="foot-note">Click a column to sort · click a player for their card. Team row includes batters the video couldn't identify. Scoring follows MLB rules: walks and sac flies aren't at-bats; foul with 2 strikes is an out.</div>`);
+}
+
+function renderCards(board, list){
+  const grid = document.createElement("div"); grid.className = "grid";
+  list.forEach(p => {
+    const c = document.createElement("article"); c.className = "card";
+    c.innerHTML = `<span class="jn">${p.num || ""}</span>${p.bats !== "?" ? `<span class="pill bt">${p.bats}</span>` : ""}`;
+    c.appendChild(headshot(p));
+    c.insertAdjacentHTML("beforeend", `<div class="pname">${p.name}</div><div class="psub">${p.display || "&nbsp;"}</div>
+      <div class="line"><div>FPTS/G<b>${fmt1(p.FPG)}</b></div><div>AVG<b>${fmtRate(p.AVG)}</b></div><div>HR<b>${p.HR}</b></div><div>RBI<b>${p.RBI}</b></div></div>`);
+    c.querySelector(".jn").textContent = p.rank ? "#" + p.rank : "";
+    if (p.num) c.querySelector(".psub").textContent = `#${p.num}${p.display ? " · " + p.display : ""}`;
+    c.addEventListener("click", () => openCard(p.id));
+    grid.appendChild(c);
+  });
+  board.appendChild(grid);
+}
+
+// ---- at-bat chips ----
+function abChip(pa){
+  const r = pa.res, cls = r === "HR" ? "hr" : ["1B","2B","3B"].includes(r) ? "hit" : ["BB","HBP"].includes(r) ? "bb" : r === "K" ? "k" : "";
+  const label = r === "UNK" ? "?" : r;
+  return `<span class="ab ${cls}" title="Inning ${pa.inn}${pa.rbi ? ` · ${pa.rbi} RBI` : ""}${r==="UNK" ? " · reached before filming" : ""}">${label}${pa.rbi ? `<sup>${pa.rbi}</sup>` : ""}</span>`;
+}
+function unknownLabel(id){ return /^\d+$/.test(id) ? `#${id} (not on roster)` : `Unidentified batter ${id.replace(/^mw_/, "")}`; }
+
+// ---- games page ----
+function renderGames(){
+  const el = document.getElementById("games");
+  [...DATA.games].reverse().forEach((g, gi) => {
+    const box = document.createElement("article"); box.className = "game";
+    const n = Math.max(g.ls.us.length, g.ls.them.length);
+    const cell = v => v == null ? "x" : v;
+    const usRow = `<tr><td>${DATA.team.short}</td>${g.ls.us.map(v => `<td>${cell(v)}</td>`).join("")}<td class="tot">${g.R[0]}</td><td class="tot">${g.H[0]}</td><td class="tot">${g.E[0]}</td></tr>`;
+    const themRow = `<tr><td style="color:${g.oppColor}">${g.oppName}</td>${g.ls.them.map(v => `<td>${cell(v)}</td>`).join("")}<td class="tot">${g.R[1]}</td><td class="tot">${g.oppHasPA ? g.H[1] : "–"}</td><td class="tot">${g.oppHasPA ? g.E[1] : "–"}</td></tr>`;
+    const rows = g.home ? themRow + usRow : usRow + themRow;
+    box.innerHTML = `
+      <div class="g-head">
+        <div class="g-res ${g.result}">${g.result}</div>
+        <div><div class="g-score">${g.R[0]}–${g.R[1]}</div></div>
+        <div><div class="g-opp">${g.home ? "vs" : "@"} <i style="background:${g.oppColor}"></i>${g.oppName}</div>
+          <div class="g-meta">${fmtDate(g.date)}${g.field ? " · " + g.field : ""} · ${/rule/.test(g.final || "") ? g.final.match(/\(([^)]+)\)/)?.[1] : n + " innings"}</div></div>
+        ${filmFor(g.id) ? `<a class="watch" href="#film/${g.id}" onclick="event.stopPropagation()" style="margin-left:auto">▶ Watch game</a>` : ""}
+        <span class="g-chev" style="${filmFor(g.id) ? "margin-left:14px" : ""}">Box score ▾</span>
+      </div>
+      <div class="g-body" ${gi === 0 ? "" : "hidden"}>
+        <div style="overflow-x:auto"><table class="lsc"><thead><tr><th></th>${Array.from({length:n}, (_,i) => `<th>${i+1}</th>`).join("")}<th>R</th><th>H</th><th>E</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div><div class="sec-t">Mike's Way batting</div><div style="overflow-x:auto"><table class="glog bx"><thead><tr><th>Player</th><th>AB</th><th>R</th><th>H</th><th>RBI</th><th>HR</th><th>BB</th><th style="text-align:left">At-bats</th></tr></thead><tbody></tbody><tfoot></tfoot></table></div></div>      </div>`;
+    const tb = box.querySelector(".bx tbody");
+    g.order.forEach(id => {
+      const l = g.lines[id], p = byId[id];
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${p ? `<div class="player"><span class="hsx"></span><span class="pname" style="font-size:14px">${p.name}</span></div>` : `<span class="unk">${unknownLabel(id)}</span>`}</td>
+        <td style="text-align:center">${l.AB}</td><td style="text-align:center">${l.R}</td><td style="text-align:center">${l.H}</td><td style="text-align:center">${l.RBI}</td><td style="text-align:center">${l.HR}</td><td style="text-align:center">${l.BB}</td>
+        <td><div class="abs">${l.pas.map(abChip).join("")}</div></td>`;
+      if (p) { const hs = headshot(p); hs.style.cssText = "width:28px;height:28px;font-size:10px"; tr.querySelector(".hsx").replaceWith(hs); linkName(tr.querySelector(".pname"), id); }
+      tb.appendChild(tr);
+    });
+    const t = sumLines(Object.values(g.lines));
+    box.querySelector(".bx tfoot").innerHTML = `<tr><td>Team</td>${["AB","R","H","RBI","HR","BB"].map(k => `<td style="text-align:center">${t[k]}</td>`).join("")}<td></td></tr>`;
+    const head = box.querySelector(".g-head"), body = box.querySelector(".g-body"), chev = box.querySelector(".g-chev");
+    const sync = () => chev.textContent = body.hidden ? "Box score ▾" : "Hide ▴";
+    head.onclick = () => { body.hidden = !body.hidden; sync(); }; sync();
+    el.appendChild(box);
+  });
+}
+
+// ---- leaders page ----
+function renderLeaders(){
+  const el = document.getElementById("leaders");
+  const boards = [["Batting Average","AVG",1,true],["OPS","OPS",1,true],["Hits","H"],["Home Runs","HR"],["RBI","RBI"],["Runs","R"],["Doubles","2B"],["Walks","BB"], ...(SHOW_DEFENSE ? [["Putouts","PO"],["Assists","AST"],["Fielding Points","DEFPTS",2]] : [])];
+  boards.forEach(([title, k, rate, needQual]) => {
+    const pool = (needQual ? qualified : players).filter(p => p[k] != null && (rate === true || rate === 1 ? true : p[k] > 0))
+      .sort((a,b) => b[k] - a[k] || a.PA - b.PA).slice(0, 5);
+    const lb = document.createElement("div"); lb.className = "lb";
+    lb.innerHTML = `<h3>${title}</h3>${pool.length ? "" : `<div class="unk">Nobody yet</div>`}`;
+    let rank = 0, prev = null;
+    pool.forEach((p, i) => {
+      if (p[k] !== prev) rank = i + 1; prev = p[k];
+      const r = document.createElement("div"); r.className = "r" + (rank === 1 ? " first" : "");
+      r.innerHTML = `<span class="n">${rank}</span><span class="hsx"></span><span class="nm">${p.name}</span><span class="v">${rate === 2 ? fmt1(p[k]) : rate ? fmtRate(p[k]) : p[k]}</span>`;
+      r.querySelector(".hsx").replaceWith(headshot(p)); linkName(r.querySelector(".nm"), p.id);
+      lb.appendChild(r);
+    });
+    if (needQual) lb.insertAdjacentHTML("beforeend", `<div class="foot-note">Min. ${MIN_PA} plate appearances</div>`);
+    el.appendChild(lb);
+  });
+}
+
+// ---- player card ----
+function openCard(id){
+  const p = byId[id]; if (!p) return;
+  const pc = document.getElementById("pc");
+  pc.innerHTML = `
+    <div class="pc-head">
+      <span class="hsx"></span>
+      <div style="min-width:0">
+        <h2 class="pc-name">${p.name}</h2>
+        <div class="pc-meta">
+          ${p.num ? `<span class="pill">#${p.num}</span>` : ""}
+          <span>${DATA.team.name}</span>
+          ${p.display ? `<span class="dot">·</span><span>“${p.display}” on the back</span>` : ""}
+          ${batsTxt(p.bats) ? `<span class="dot">·</span><span>${batsTxt(p.bats)}</span>` : ""}
+          <span class="dot">·</span><span>Bats ${orderIdx(p.id) < 99 ? orderIdx(p.id) + 1 + (["st","nd","rd"][orderIdx(p.id)] || "th") : "—"}</span>
+        </div>
+      </div>
+      <button class="pc-close" aria-label="Close">✕</button>
+    </div>
+    <div class="pc-body">
+      <div class="sec-t">Fantasy</div>
+      <div class="tiles">
+        <div class="tile good"><div class="k">FPTS / G</div><div class="v">${fmt1(p.FPG)}</div></div>
+        <div class="tile"><div class="k">Rank</div><div class="v">${p.rank ?? "—"}</div></div>
+        ${SHOW_DEFENSE ? `<div class="tile"><div class="k">OFF / DEF</div><div class="v" style="font-size:17px">${fmt1(p.OFFG)} / ${fmt1(p.DEFG)}</div></div>` : `<div class="tile"><div class="k">Total</div><div class="v">${fmt1(p.FPT)}</div></div>`}
+        <div class="tile"><div class="k">Best GM</div><div class="v">${fmt1(p.BEST)}</div></div>
+      </div>
+      <div class="sec-t">${SEASON}${SHOW_DEFENSE && p.POS.length ? " · plays " + p.POS.join(", ") : ""}${SHOW_DEFENSE && p.DG ? ` · ${p.DEF.PO} PO, ${p.DEF.A} A, ${p.DEF.E} E` : ""}</div>
+      <div class="tiles">
+        <div class="tile"><div class="k">AVG</div><div class="v">${fmtRate(p.AVG)}</div></div>
+        <div class="tile"><div class="k">OBP</div><div class="v">${fmtRate(p.OBP)}</div></div>
+        <div class="tile"><div class="k">SLG</div><div class="v">${fmtRate(p.SLG)}</div></div>
+        <div class="tile"><div class="k">OPS</div><div class="v">${fmtRate(p.OPS)}</div></div>
+        <div class="tile"><div class="k">H / AB</div><div class="v">${p.H}/${p.AB}</div></div>
+        <div class="tile"><div class="k">HR</div><div class="v">${p.HR}</div></div>
+        <div class="tile"><div class="k">RBI</div><div class="v">${p.RBI}</div></div>
+        <div class="tile"><div class="k">Runs</div><div class="v">${p.R}</div></div>
+      </div>
+      <div class="sec-t">Game log</div>
+      <div id="logWrap"></div>
+    </div>`;
+  pc.querySelector(".hsx").replaceWith(headshot(p));
+  pc.querySelector(".pc-close").onclick = closeCard;
+  const wrap = pc.querySelector("#logWrap");
+  if (!p.games.length) wrap.innerHTML = `<div class="nodata">No games logged yet.</div>`;
+  else {
+    const c = ["AB","R","H","2B","HR","RBI","BB"];
+    const gpool = players.flatMap(x => x.games.map(y => +y.fp.toFixed(2)));
+    wrap.innerHTML = `<div style="overflow-x:auto"><table class="glog"><thead><tr><th>Date</th><th>Opp</th><th>Res</th><th style="color:var(--accent)">FPTS</th>${SHOW_DEFENSE ? "<th>DEF</th>" : ""}${c.map(k => `<th>${k}</th>`).join("")}<th>AVG</th><th style="text-align:left">At-bats</th></tr></thead><tbody>${
+      p.games.map(({g, l, d, fp, def}) => `<tr><td>${shortDate(g.date)}</td><td style="text-align:center" title="${g.oppName}">${g.home ? "vs" : "@"} ${g.oppShort || g.oppName}</td>
+        <td style="text-align:center;font-weight:700;color:${g.result==="W"?"var(--win)":"var(--loss)"}">${g.result} ${g.R[0]}-${g.R[1]}</td>
+        <td style="text-align:center;font-weight:700"><span class="pcv ${pctClassPool(gpool, +fp.toFixed(2))}">${fmt1(fp)}</span></td>
+        ${!SHOW_DEFENSE ? "" : `<td style="text-align:center" title="${d ? `${d.PO} PO, ${d.A} A, ${d.E} E${d.DP ? ", " + d.DP + " DP" : ""} = ${fmt1(def)} pts` : "Fielding not logged for this game"}">${d ? `${d.PO}-${d.A}-${d.E}` : `<span class="unk">—</span>`}</td>`}
+        ${c.map(k => `<td style="text-align:center">${l[k]}</td>`).join("")}<td style="text-align:center">${fmtRate(rates(l).AVG)}</td>
+        <td><div class="abs">${l.pas.map(abChip).join("") || `<span class="unk">ran only</span>`}${filmFor(g.id) && filmFor(g.id).plays.some(x => x.id === p.id) ? ` <a class="watch filmlink" href="#film/${g.id}/${p.id}" title="Watch ${p.first}'s at-bats">▶ Film</a>` : ""}</div></td></tr>`).join("")
+    }</tbody><tfoot><tr><td colspan="3">Season</td><td style="text-align:center">${fmt1(p.FPT)}</td>${SHOW_DEFENSE ? `<td style="text-align:center">${p.DG ? `${p.DEF.PO}-${p.DEF.A}-${p.DEF.E}` : "—"}</td>` : ""}${c.map(k => `<td style="text-align:center">${p[k]}</td>`).join("")}<td style="text-align:center">${fmtRate(p.AVG)}</td><td></td></tr></tfoot></table></div>
+    <div class="foot-note">${SCORING_NOTE}${SHOW_DEFENSE ? " DEF = putouts-assists-errors." : ""}${SHOW_COLORS ? " FPTS color vs. every logged player-game." : ""}<br>Green = hit · purple = home run · blue = walk · small number = RBI · “?” = reached base before the camera was rolling.</div>`;
+  }
+  pc.querySelectorAll(".filmlink").forEach(a => a.addEventListener("click", () => closeCard()));
+  document.getElementById("ov").hidden = false;
+  document.body.style.overflow = "hidden";
+  try { history.replaceState(null, "", "?player=" + slug(p.name) + location.hash); } catch(e){}
+}
+function closeCard(){
+  document.getElementById("ov").hidden = true; document.body.style.overflow = "";
+  try { history.replaceState(null, "", location.pathname + location.hash); } catch(e){}
+}
+document.getElementById("ov").addEventListener("click", e => { if (e.target.id === "ov") closeCard(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !document.getElementById("ov").hidden) closeCard(); });
+
+// ---- film room ----
+// Same layout as the Turkey Bowl film room: a landing page (filters on top + game cards),
+// then a viewer (filters, scoreboard, video, prev/next, "on this play", play list).
+// Each game plays from YouTube when youtube.js has a link for it. Otherwise, when the site runs
+// locally (serve.py), it plays the mp4 that serve.py streams under /videos/.
+const VIDEO_BASE = "videos/";
+const IS_LOCAL = ["localhost", "127.0.0.1", "[::1]", ""].includes(location.hostname);
+const ytIdOf = game => {
+  const v = ((typeof YOUTUBE !== "undefined" && YOUTUBE[game]) || "").trim();
+  const m = v.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/|live\/)([\w-]{11})/);
+  return m ? m[1] : /^[\w-]{11}$/.test(v) ? v : "";
+};
+const mediaMode = x => ytIdOf(x.f.game) ? "yt" : (IS_LOCAL || x.p.src) ? "file" : "none";
+const FILM_LIST = typeof FILMS !== "undefined" ? FILMS : [];
+const filmFor = id => FILM_LIST.find(f => f.game === id);
+const gameById = id => DATA.games.find(g => g.id === id);
+const FS = {game:"all", who:"all", type:"all", idx:0, auto:true};
+const srcOf = x => x.p.src || x.f.src;   // raw-clip games give each play its own video file
+const mmss = s => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,"0")}`;
+const ordn = n => n + (["th","st","nd","rd"][(n%100-20)%10] || ["th","st","nd","rd"][n%100] || "th");
+const HITS = ["1B","2B","3B","HR"], OUTS = ["GO","FO","PO","LO","K","DP","FC","OUT","SF","TP"];
+const resCls = c => c === "HR" ? "hr" : HITS.includes(c) ? "hit" : "";
+const TYPES = [
+  ["all", "All plays", () => true],
+  ["hits", "Hits", p => HITS.includes(p.code)],
+  ["1B", "Singles", p => p.code === "1B"],
+  ["2B", "Doubles", p => p.code === "2B"],
+  ["3B", "Triples", p => p.code === "3B"],
+  ["HR", "Home runs", p => p.code === "HR"],
+  ["rbi", "RBI plays", p => p.rbi > 0],
+  ["BB", "Walks", p => p.code === "BB" || p.code === "HBP"],
+  ["outs", "Outs at the plate", p => p.ours && OUTS.includes(p.code)],
+  ...(SHOW_DEFENSE ? [["def", "Defensive plays", p => !p.ours && (OUTS.includes(p.code) || !!p.def)]] : []),
+  ["DP", "Double plays", p => p.code === "DP"],
+  ["E", "Errors", p => p.code === "E" || (SHOW_DEFENSE && (p.def || []).some(c => c.stat === "E"))],
+];
+const TYPE_BY = Object.fromEntries(TYPES.map(t => [t[0], t]));
+const allPlays = FILM_LIST.flatMap((f, fi) => f.plays.map((p, i) => ({f, fi, i, p})));
+const whoMatch = (p, who) => who === "all" || (who === "mw" ? p.ours : who === "opp" ? !p.ours :
+  (p.ours && p.id === who) || (SHOW_DEFENSE && (p.def || []).some(c => c.player === who)));
+const filtered = () => allPlays.filter(x => (FS.game === "all" || x.f.game === FS.game) && whoMatch(x.p, FS.who) && TYPE_BY[FS.type][2](x.p));
+const gameLabel = g => g ? `${g.home ? "vs" : "@"} ${g.oppName}` : "";
+const filmRootEl = () => document.getElementById("filmRoot");
+
+// one persistent video element, so switching plays in the same game doesn't reload the video
+const vid = document.createElement("video");
+vid.controls = true; vid.playsInline = true; vid.preload = "metadata";
+let loadedFilm = null;
+
+// YouTube player. A YouTube iframe can't be moved around the page (it reloads and loses its
+// connection), so each viewer gets its own player, built the first time a YouTube game is shown
+// and torn down when the viewer is redrawn. Switching between YouTube and local games only hides it.
+const ytBox = document.createElement("div"); ytBox.className = "ytbox";
+const noVid = document.createElement("div"); noVid.className = "novid";
+noVid.innerHTML = `<div><b>Video coming soon</b><span>This game's full video isn't online yet.</span></div>`;
+let yt = null, ytApiP = null, ytLoaded = null, ytWant = null;   // yt = {p: YT.Player, ready: Promise}
+const ytP = () => yt && yt.p && yt.p.getPlayerState ? yt.p : null;
+function ytApi(){
+  return ytApiP || (ytApiP = new Promise(res => {
+    if (window.YT && YT.Player) return res();
+    window.onYouTubeIframeAPIReady = res;
+    const s = document.createElement("script"); s.src = "https://www.youtube.com/iframe_api"; document.head.appendChild(s);
+  }));
+}
+function ytReset(){
+  if (yt && yt.p) { try { yt.p.destroy(); } catch(e){} }
+  yt = null; ytLoaded = null; ytWant = null; ytBox.innerHTML = "";
+}
+function ytPlayer(){
+  if (yt) return yt.ready;
+  const holder = document.createElement("div"); ytBox.innerHTML = ""; ytBox.appendChild(holder);
+  const me = {p: null};
+  me.ready = ytApi().then(() => new Promise(res => {
+    me.p = new YT.Player(holder, {playerVars: {playsinline: 1, rel: 0, modestbranding: 1}, events: {onReady: () => res(me.p)}});
+  }));
+  yt = me; return me.ready;
+}
+function ytShow(id, t, play){
+  ytWant = {id, t, play};
+  const me = yt || null;
+  ytPlayer().then(p => {
+    const w = ytWant; if (!w || (me && yt !== me) || !yt || yt.p !== p) return;   // viewer was redrawn meanwhile
+    if (ytLoaded !== w.id) { ytLoaded = w.id; w.play ? p.loadVideoById({videoId: w.id, startSeconds: w.t}) : p.cueVideoById({videoId: w.id, startSeconds: w.t}); }
+    else { p.seekTo(w.t, true); if (w.play) p.playVideo(); }
+  });
+}
+function pauseAll(){ vid.pause(); ytWant = null; const p = ytP(); if (p) p.pauseVideo(); }
+function mountMedia(mode){
+  const box = document.getElementById("vbox"); if (!box) return;
+  for (const el of [vid, ytBox, noVid]) if (el.parentNode !== box) box.appendChild(el);
+  vid.style.display = mode === "file" ? "" : "none";
+  ytBox.style.display = mode === "yt" ? "" : "none";
+  noVid.style.display = mode === "none" ? "" : "none";
+  if (mode !== "file") vid.pause();
+  if (mode !== "yt") { ytWant = null; const p = ytP(); if (p) p.pauseVideo(); }
+}
+// autoplay-next for YouTube (it has no timeupdate event, so check a few times a second)
+setInterval(() => {
+  const p = ytP();
+  if (!p || p.getPlayerState() !== 1 || document.getElementById("pg-film").hidden) return;
+  const list = filtered(), x = list[FS.idx]; if (!x || mediaMode(x) !== "yt" || ytIdOf(x.f.game) !== ytLoaded) return;
+  if (p.getCurrentTime() >= x.p.t + x.p.len - 0.15) {
+    if (FS.auto && FS.idx < list.length - 1) showPlay(FS.idx + 1, true);
+    else p.pauseVideo();
+  }
+}, 200);
+
+function filmRoute(gid, who, type){
+  if (gid === undefined) { renderFilmLanding(); return; }
+  FS.game = filmFor(gid) ? gid : "all"; FS.who = who || "all"; FS.type = TYPE_BY[type] ? type : "all"; FS.idx = 0;
+  renderViewer(!!(who || type || filmFor(gid)));
+}
+function goFilm(){ location.hash = ["film", FS.game, FS.who, FS.type].join("/"); }
+
+function playerOptions(val, inGame){
+  const n = who => allPlays.filter(x => (!inGame || inGame(x)) && whoMatch(x.p, who)).length;
+  const ids = DATA.players.map(p => p.id).filter(id => allPlays.some(x => whoMatch(x.p, id)))
+    .sort((a,b) => byId[a].last.localeCompare(byId[b].last));
+  return [["all", "All players"], ["mw", "Mike's Way at-bats"], ["opp", SHOW_DEFENSE ? "Opponent at-bats (our defense)" : "Opponent at-bats"], ...ids.map(id => [id, byId[id].name])]
+    .map(([v, l]) => `<option value="${v}" ${v === val ? "selected" : ""}>${l} (${n(v)})</option>`).join("");
+}
+function typeOptions(val, base){
+  return TYPES.map(([k, l, t]) => `<option value="${k}" ${k === val ? "selected" : ""}>${l} (${base.filter(x => t(x.p)).length})</option>`).join("");
+}
+function gameOptions(val){
+  return `<option value="all">All games</option>` + FILM_LIST.map(f => { const g = gameById(f.game);
+    return `<option value="${f.game}" ${f.game === val ? "selected" : ""}>${g ? `${fmtDate(g.date)} · ${gameLabel(g)}` : f.game}</option>`; }).join("");
+}
+
+// ---------- landing ----------
+function renderFilmLanding(){
+  pauseAll();
+  const root = filmRootEl();
+  const W = DATA.games.filter(g => g.result === "W").length, L = DATA.games.filter(g => g.result === "L").length;
+  root.innerHTML = `<div class="fr-wrap">
+    <div class="fr-top"><h1><span class="gold">Film Room</span> ${SEASON}</h1></div>
+    <div class="fr-filters">
+      <div class="fld"><label>Season</label><select id="fSeason">${[...SEASONS].reverse().map(n => `<option ${n === SEASON ? "selected" : ""}>${n}</option>`).join("")}</select></div>
+      <div class="fld" style="min-width:220px"><label>Player</label><select id="fPlayer">${playerOptions(FS.who)}</select></div>
+      <div class="fld" style="min-width:190px"><label>Play type</label><select id="fType">${typeOptions(FS.type, allPlays.filter(x => whoMatch(x.p, FS.who)))}</select></div>
+      <div class="fld" style="min-width:220px"><label>Game</label><select id="fGame">${gameOptions(FS.game)}</select></div>
+      <button class="obtn solid" id="fWatch">▶ Watch</button>
+    </div>
+    <h2 class="round-h">Games <small style="color:var(--muted);font-size:14px">Mike's Way ${W}-${L}</small></h2>
+    <div class="gg" id="gameGrid"></div>
+  </div>`;
+  const grid = root.querySelector("#gameGrid");
+  [...DATA.games].reverse().forEach(g => {
+    const f = filmFor(g.id), n = f ? f.plays.length : 0, win = g.result === "W";
+    const card = document.createElement(f ? "a" : "div");
+    card.className = "gcard" + (f ? "" : " nofilm");
+    if (f) card.href = `#film/${g.id}`;
+    card.innerHTML = `
+      <div class="gc-top" style="background:linear-gradient(112deg, ${DATA.team.color} 0 54%, ${g.oppColor} 54% 100%)">
+        <div class="logo" style="color:#fff;background:${DATA.team.color}">MW</div>
+        ${f ? `<div class="playbtn"></div>` : `<div class="nofilm-tag">No film</div>`}
+        <div class="logo" style="color:#fff;background:${g.oppColor}">${(g.oppName.match(/(?:^|\s)(\w)/g) || ["?"]).map(s => s.trim()).join("").slice(0,3).toUpperCase()}</div>
+      </div>
+      <div class="gc-bot">
+        <div class="ln ${win ? "win" : ""}"><span>Mike's Way</span><b>${g.R[0]}</b></div>
+        <div class="ln ${!win ? "win" : ""}"><span>${g.oppName}</span><b>${g.R[1]}</b></div>
+        <div class="gc-foot"><span>${fmtDate(g.date)}</span><span>${f ? `${n} plays${f.raw ? " · raw clips" : ""} · ` : ""}<span class="final">FINAL</span></span></div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  const sync = () => { FS.who = root.querySelector("#fPlayer").value; FS.type = root.querySelector("#fType").value; FS.game = root.querySelector("#fGame").value; };
+  root.querySelector("#fPlayer").onchange = () => { sync(); FS.type = "all"; renderFilmLanding(); };
+  root.querySelector("#fType").onchange = sync;
+  root.querySelector("#fGame").onchange = sync;
+  root.querySelector("#fWatch").onclick = () => { sync(); goFilm(); };
+  root.querySelector("#fSeason").onchange = e => setSeason(e.target.value);
+}
+
+// ---------- viewer ----------
+function renderViewer(autoplay){
+  const root = filmRootEl(), list = filtered();
+  const inGame = x => FS.game === "all" || x.f.game === FS.game;
+  const chips = [];
+  if (FS.game !== "all") { const g = gameById(FS.game); chips.push([`Game: ${g ? fmtDate(g.date) + " " + gameLabel(g) : FS.game}`, () => FS.game = "all"]); }
+  if (FS.who !== "all") chips.push([`Player: ${FS.who === "mw" ? "Mike's Way at-bats" : FS.who === "opp" ? "Opponent at-bats" : byId[FS.who].name}`, () => FS.who = "all"]);
+  if (FS.type !== "all") chips.push([TYPE_BY[FS.type][1], () => FS.type = "all"]);
+
+  root.innerHTML = `<div class="fv">
+    <aside class="fv-side">
+      <a href="#film" class="backlink">← ALL GAMES</a>
+      <h2>☰ Filter</h2>
+      <div class="fld"><label>Player</label><select id="vPlayer">${playerOptions(FS.who, inGame)}</select></div>
+      <div class="fld"><label>Play type</label><select id="vType">${typeOptions(FS.type, allPlays.filter(x => inGame(x) && whoMatch(x.p, FS.who)))}</select></div>
+      <div class="fld"><label>Game</label><select id="vGame">${gameOptions(FS.game)}</select></div>
+      <button class="wbtn" id="vClear">Clear filters</button>
+    </aside>
+    <main class="fv-main">
+      <h1><span class="gold">${list.length} play${list.length === 1 ? "" : "s"}</span> matching your criteria</h1>
+      <div class="chiprow">${chips.map(([t], i) => `<span class="fchip">${t}<button data-i="${i}" aria-label="Remove">✕</button></span>`).join("") || `<span class="fchip">Everything</span>`}</div>
+      <div id="sbWrap"></div>
+      <div class="vbox" id="vbox"></div>
+      <div class="vctl">
+        <button class="cbtn" id="prev">⏮ Prev</button>
+        <button class="cbtn" id="replay">↻ Replay</button>
+        <button class="cbtn" id="next">Next ⏭</button>
+        <label class="tog" style="margin-left:8px"><input type="checkbox" id="vAuto" ${FS.auto ? "checked" : ""}><span class="sw"></span>Autoplay next play</label>
+      </div>
+      <div class="pdesc" id="pdesc"></div>
+      <div class="pmeta" id="pmeta"></div>
+    </main>
+    <aside class="fv-right">
+      <div class="rbox" id="onPlay"></div>
+      <div class="rbox"><h3>Plays (${list.length})</h3><div class="plist" id="plist"></div></div>
+    </aside>
+  </div>`;
+  ytReset(); vid.remove(); noVid.remove();
+
+  const pl = root.querySelector("#plist");
+  if (!list.length) pl.innerHTML = `<div style="color:var(--muted);font-size:13px;padding:8px">No plays match. Try clearing a filter.</div>`;
+  list.forEach((x, i) => {
+    const p = x.p, g = gameById(x.f.game);
+    const d = document.createElement("div"); d.className = "pitem"; d.dataset.i = i;
+    d.innerHTML = `<span class="n">${i + 1}</span><span class="hsx"></span><div style="min-width:0;flex:1"><div><b>${playLabel(x)}</b> <span class="res ${p.ours ? resCls(p.code) : ""}">${p.result}</span></div>
+      <div class="gm">${g ? fmtDate(g.date) + " " + gameLabel(g) : ""} · ${p.half === "top" ? "Top" : "Bot"} ${ordn(p.inn)}${defText(p) ? " · " + defText(p) : ""}</div></div>`;
+    d.querySelector(".hsx").replaceWith(playHead(x, 28));
+    d.onclick = () => showPlay(i, true);
+    pl.appendChild(d);
+  });
+
+  root.querySelector("#vPlayer").onchange = e => { FS.who = e.target.value; FS.type = "all"; goFilm(); };
+  root.querySelector("#vType").onchange = e => { FS.type = e.target.value; goFilm(); };
+  root.querySelector("#vGame").onchange = e => { FS.game = e.target.value; goFilm(); };
+  root.querySelector("#vClear").onclick = () => { FS.game = "all"; FS.who = "all"; FS.type = "all"; goFilm(); };
+  root.querySelectorAll(".fchip button").forEach(b => b.onclick = () => { chips[+b.dataset.i][1](); goFilm(); });
+  root.querySelector("#prev").onclick = () => showPlay(FS.idx - 1, true);
+  root.querySelector("#next").onclick = () => showPlay(FS.idx + 1, true);
+  root.querySelector("#replay").onclick = () => showPlay(FS.idx, true);
+  root.querySelector("#vAuto").onchange = e => FS.auto = e.target.checked;
+  showPlay(Math.min(FS.idx, Math.max(0, list.length - 1)), autoplay);
+}
+
+function playLabel(x){
+  const p = x.p, pl = p.ours ? byId[p.id] : null;
+  if (pl) return pl.name;
+  if (p.ours) return /^\d+$/.test(p.id) ? `#${p.id}` : "Mike's Way batter";
+  const g = gameById(x.f.game);
+  return `${g ? g.oppName : "Opponent"}${p.num ? " #" + p.num : ""}`;
+}
+function playHead(x, size){
+  const p = x.p, pl = p.ours ? byId[p.id] : null, hs = headshot(pl || null);
+  if (!pl) { hs.textContent = p.ours ? (p.num || "MW") : (p.num || "–"); if (!p.ours) { hs.style.borderColor = "#4a5468"; hs.style.color = "#8a94a8"; } }
+  hs.style.width = hs.style.height = size + "px"; hs.style.fontSize = Math.round(size / 2.8) + "px";
+  return hs;
+}
+const STAT_WORD = {PO:"putout", A:"assist", E:"error", DP:"double play"};
+function defText(p){
+  if (!SHOW_DEFENSE) return "";
+  return (p.def || []).filter(c => byId[c.player]).map(c => `${byId[c.player].last} ${STAT_WORD[c.stat]}`).join(", ");
+}
+function scoreboard(x){
+  const g = gameById(x.f.game), p = x.p;
+  if (!g) return "";
+  const away = g.home ? {n: g.oppName, c: g.oppColor, s: p.score[0]} : {n: "Mike's Way", c: DATA.team.color, s: p.score[0]};
+  const home = g.home ? {n: "Mike's Way", c: DATA.team.color, s: p.score[1]} : {n: g.oppName, c: g.oppColor, s: p.score[1]};
+  const ab = n => n === "Mike's Way" ? "MW" : (n.match(/(?:^|\s)(\w)/g) || ["?"]).map(s => s.trim()).join("").slice(0,3).toUpperCase();
+  const bat = (p.half === "top") ? "away" : "home";
+  return `<div class="sb">
+    <div class="side" style="background:${away.c};color:#fff"><span class="mini-logo">${ab(away.n)}</span>${away.s}${bat === "away" ? ' <span class="poss">🥎</span>' : ""}</div>
+    <div class="mid">${p.half === "top" ? "TOP" : "BOT"} ${ordn(p.inn).toUpperCase()}<br>${fmtDate(g.date)}</div>
+    <div class="side r" style="background:${home.c};color:#fff">${bat === "home" ? '<span class="poss">🥎</span> ' : ""}${home.s}<span class="mini-logo">${ab(home.n)}</span></div>
+  </div>`;
+}
+function showPlay(i, play){
+  const list = filtered(), root = filmRootEl();
+  if (!list.length) {
+    pauseAll(); mountMedia("file"); vid.removeAttribute("src"); vid.load(); loadedFilm = null;
+    root.querySelector("#onPlay").innerHTML = `<h3>On this play</h3><div style="color:var(--muted);font-size:13px">Pick a play.</div>`;
+    root.querySelector("#pdesc").innerHTML = `<span style="color:var(--muted)">No plays match. Try clearing a filter.</span>`;
+    root.querySelector("#prev").disabled = root.querySelector("#next").disabled = root.querySelector("#replay").disabled = true;
+    return;
+  }
+  i = Math.max(0, Math.min(i, list.length - 1)); FS.idx = i;
+  const x = list[i], p = x.p, g = gameById(x.f.game);
+  // video
+  const mode = mediaMode(x);
+  mountMedia(mode);
+  if (mode === "yt") ytShow(ytIdOf(x.f.game), p.t + 0.05, play);
+  else if (mode === "file") {
+    ytWant = null;
+    const go = () => { vid.currentTime = p.t + 0.05; if (play) vid.play().catch(() => {}); };
+    const src = srcOf(x);
+    if (loadedFilm !== src) { loadedFilm = src; vid.src = VIDEO_BASE + src.split("/").map(encodeURIComponent).join("/"); vid.addEventListener("loadedmetadata", go, {once:true}); }
+    else if (vid.readyState >= 1) go(); else vid.addEventListener("loadedmetadata", go, {once:true});
+  }
+  // text
+  root.querySelector("#sbWrap").innerHTML = scoreboard(x);
+  root.querySelector("#pdesc").innerHTML = `<b>${playLabel(x)}</b> — ${(p.result.charAt(0) + p.result.slice(1).toLowerCase()).replace(/\brbi\b/gi, "RBI")}${p.rbi ? ` · ${p.rbi} RBI` : ""}`;
+  root.querySelector("#pmeta").innerHTML = `<span>Play ${i + 1} of ${list.length}</span><span>·</span><span>${g ? fmtDate(g.date) + " " + gameLabel(g) : ""}</span><span>·</span><span>${p.half === "top" ? "Top" : "Bottom"} ${ordn(p.inn)}</span><span>·</span><span>${mmss(p.t)}–${mmss(p.t + p.len)}</span>`;
+  // on this play
+  const op = root.querySelector("#onPlay");
+  const ourC = DATA.team.color, oppC = g ? g.oppColor : "#555";
+  op.innerHTML = `<h3>On this play</h3>
+    <div class="teamhdr" style="background:${p.ours ? ourC : oppC};color:#fff">${p.ours ? "Mike's Way" : (g ? g.oppName : "Opponent")} batting</div><div class="rows-o"></div>
+    ${SHOW_DEFENSE ? `<div class="teamhdr" style="background:${p.ours ? oppC : ourC};color:#fff">${p.ours ? (g ? g.oppName : "Opponent") : "Mike's Way"} defense</div><div class="rows-d"></div>` : ""}`;
+  const row = (el, role, x2, text, id) => {
+    const r = document.createElement("div"); r.className = "rrow"; r.innerHTML = `<span class="role">${role}</span>`;
+    if (x2) r.appendChild(playHead(x2, 28)); else if (id && byId[id]) r.appendChild(headshot(byId[id]));
+    const s = document.createElement("span"); s.textContent = text; r.appendChild(s);
+    if (id && byId[id]) linkName(s, id);
+    el.appendChild(r);
+  };
+  row(op.querySelector(".rows-o"), "BATTER", x, playLabel(x), p.ours ? p.id : null);
+  row(op.querySelector(".rows-o"), "RESULT", null, p.result + (p.rbi ? ` (${p.rbi} RBI)` : ""));
+  const dd = op.querySelector(".rows-d"), creds = (p.def || []).filter(c => byId[c.player]);
+  if (!dd) {}
+  else if (creds.length) creds.forEach(c => row(dd, STAT_WORD[c.stat].toUpperCase(), null, byId[c.player].name + (c.pos ? ` (${c.pos})` : ""), c.player));
+  else dd.innerHTML = `<div class="rrow" style="color:var(--muted)">${p.ours ? "—" : "Fielder not identified"}</div>`;
+  // list + buttons
+  root.querySelectorAll(".pitem").forEach(d => d.classList.toggle("on", +d.dataset.i === i));
+  // keep the highlighted play visible inside the list only; never scroll the page away from the video
+  const on = root.querySelector(".pitem.on"), box = root.querySelector("#plist");
+  if (on && box) {
+    const top = on.offsetTop - box.offsetTop, bottom = top + on.offsetHeight;
+    if (top < box.scrollTop) box.scrollTop = top - 4;
+    else if (bottom > box.scrollTop + box.clientHeight) box.scrollTop = bottom - box.clientHeight + 4;
+  }
+  root.querySelector("#prev").disabled = i <= 0;
+  root.querySelector("#next").disabled = i >= list.length - 1;
+  root.querySelector("#replay").disabled = false;
+}
+vid.addEventListener("timeupdate", () => {
+  if (vid.seeking || vid.paused || document.getElementById("pg-film").hidden) return;
+  const list = filtered(), x = list[FS.idx]; if (!x || loadedFilm !== srcOf(x)) return;
+  if (vid.currentTime >= x.p.t + x.p.len - 0.15) {
+    // end of this play: autoplay moves to the next one in the list (even in another game); otherwise stop
+    if (FS.auto && FS.idx < list.length - 1) showPlay(FS.idx + 1, true);
+    else vid.pause();
+  }
+});
+
+document.getElementById("seasonLbl").textContent = SEASON;
+document.getElementById("fieldBtn").hidden = !SHOW_DEFENSE;
+{ const sel = document.getElementById("seasonSel");
+  sel.innerHTML = [...SEASONS].reverse().map(n => `<option ${n === SEASON ? "selected" : ""}>${n}</option>`).join("");
+  sel.onchange = e => setSeason(e.target.value);
+}
+render(); renderGames(); renderLeaders(); showPage();
+{ const q = new URLSearchParams(location.search).get("player"); const hit = q && players.find(p => slug(p.name) === q); if (hit) openCard(hit.id); }
+</script>
+</body>
+</html>

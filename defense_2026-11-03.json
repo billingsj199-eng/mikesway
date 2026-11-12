@@ -1,0 +1,1158 @@
+{
+ "positions": {
+  "2026-11-03-g1": {
+   "11": [
+    "C"
+   ],
+   "35": [
+    "3B",
+    "1B"
+   ]
+  },
+  "2026-11-03-g2": {
+   "mw_whitehoodie": [
+    "1B"
+   ],
+   "8": [
+    "2B"
+   ]
+  }
+ },
+ "position_notes": {
+  "2026-11-03-g1": {
+   "11": "C inn 1 (number read on back while picking up ball at the plate) - high",
+   "35": "3B inn 2 (grounder 'to #35 at 3B') and inn 3 (runner at 3B next to #35); 1B inn 5-6 ('#35 (MW 1B)', takes throws on the bag). Inn 4 and 7 1B unnamed"
+  },
+  "2026-11-03-g2": {
+   "mw_whitehoodie": "1B all game: notes say 'MW 1B (white hoodie)' / '(cream hoodie)'; matches mw_whitehoodie (cream hoodie, black shorts) - med. #15 also wears a white hoodie, but under a purple jersey, so less likely",
+   "8": "Low: 'standing on 2B next to #8' twice in inn 5; also 'next to MW #8' at 1B in inn 1 and 4 (covering?). #35 bats this game but is never mentioned on defense"
+  }
+ },
+ "plays": [
+  {
+   "game": "2026-11-03-g1",
+   "pa": 8,
+   "inning": 1,
+   "result": "?",
+   "credits": [],
+   "why": "Foul ball near home; #11 (catcher, number read) picks it up; PA outcome not on clip, no out logged"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 19,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 20,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 21,
+   "inning": 2,
+   "result": "?",
+   "credits": [],
+   "why": "Ball down RF line, purple RF at the fence, play at home; safe/out and fair/foul unknown, no out logged"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 22,
+   "inning": 2,
+   "result": "?",
+   "credits": [],
+   "why": "No out recorded; result not determinable"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 23,
+   "inning": 2,
+   "result": "?",
+   "credits": [],
+   "why": "No out recorded; result not determinable"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 24,
+   "inning": 2,
+   "result": "?",
+   "credits": [],
+   "why": "Grounder to #35 at 3B, throw, purple fielder chases ball toward 1B fence (possible overthrow); not determinable, no out or error logged"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 25,
+   "inning": 2,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "35",
+     "pos": "3B",
+     "stat": "A",
+     "conf": "med"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "#35 (at 3B this inning) fields and throws, side retired; receiver not seen (PO ?). Log books all 3 outs of the half on this PA, so 2 extra '?' PO stand in for outs never seen in the file"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 30,
+   "inning": 3,
+   "result": "?",
+   "credits": [],
+   "why": "No out recorded; result not determinable"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 31,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 32,
+   "inning": 3,
+   "result": "?",
+   "credits": [],
+   "why": "Runner arrives at 3B next to #35; batter result not seen, no out logged"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 33,
+   "inning": 3,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "RF",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Camera swings to RF line, fielders jog in = 3rd out, play not seen. Log books all 3 outs of the half on this PA; 2 extra '?' PO stand in for unseen outs"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 42,
+   "inning": 4,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Out inferred (clip shows only 2 outs), not seen; fielders throwing ball around"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 43,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Infield hit to left side; throw short-hops past the 1B (unnamed) to the fence. Logged as hit; could be an E on the throw"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 44,
+   "inning": 4,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "OF",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Fly ball to the outfield, catch not in frame; batter walks off"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 45,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 46,
+   "inning": 4,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "OF",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "High fly to the outfield, catch not clearly seen; side retired"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 53,
+   "inning": 5,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "med"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Grounder; #35 (MW 1B) takes the throw on the bag as runner arrives"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 54,
+   "inning": 5,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Grounder; #35 on the bag holding the ball as runner arrives (throw not described, A uncertain)"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 55,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 56,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 57,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 58,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 59,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Foul pop drops between catcher and #35 (not caught, no error logged), then a single"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 60,
+   "inning": 5,
+   "result": "2B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 61,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 62,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 63,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 64,
+   "inning": 5,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "med"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Grounder; #35 on 1B receives the throw before #34 arrives, 3rd out"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 72,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 73,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 74,
+   "inning": 6,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Throw to #35 on the bag arrives with the runner; runner gone afterwards (close play)"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 75,
+   "inning": 6,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "35",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "#35 receives at the bag as runner arrives; runner not on 1B afterwards"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 76,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 77,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 78,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Single; runner slides home next to a purple (unnamed) catcher, call unclear, run counted"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 79,
+   "inning": 6,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "3rd out inferred, not seen; MW jogs in"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 89,
+   "inning": 7,
+   "result": "FC",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "FC: lead runner forced at 2B with two MW fielders covering; who took the throw not seen"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 90,
+   "inning": 7,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 91,
+   "inning": 7,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 92,
+   "inning": 7,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Out inferred, not visible"
+  },
+  {
+   "game": "2026-11-03-g1",
+   "pa": 93,
+   "inning": 7,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "#9 runs to 1B, MW converges and walks in = final out (out at 1B presumed, fielders not seen)"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 0,
+   "inning": 1,
+   "result": "1B",
+   "credits": [],
+   "why": "Ground ball to right side; MW 1B (white hoodie) still reaching for it as runner crosses 1B"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 1,
+   "inning": 1,
+   "result": "1B",
+   "credits": [],
+   "why": "Grounder through right side, MW 1B dives and misses; runner reaches 1B next to MW #8"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 2,
+   "inning": 1,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "LF",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Fly toward LF; runner tags back to 1B = caught; catch not seen"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 3,
+   "inning": 1,
+   "result": "2B",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Double; one runner retired by inference (only one more out seen), play not seen"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 4,
+   "inning": 1,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "med"
+    },
+    {
+     "player": "mw_whitehoodie",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Ground ball; MW 1B (white hoodie) takes the throw at the bag, side retired"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 15,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "Single to right side; MW 1B (white hoodie) chases"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 16,
+   "inning": 2,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "P",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Out inferred; MW pitcher crouches/fields the ball; rest of play not seen"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 17,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "Foul pop not caught by 1B and a sub at the fence (no error logged); then hit to RF corner, RF (white shirt) fields"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 18,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 19,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 20,
+   "inning": 2,
+   "result": "1B",
+   "credits": [],
+   "why": "Ball to right side, MW 1B fields near bag; logged as a hit (could be an out)"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 21,
+   "inning": 2,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "mw_whitehoodie",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Grounder; runner reaches 1B area with MW 1B holding the ball (1B = white hoodie earlier this inning, PA 15)"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 22,
+   "inning": 2,
+   "result": "FO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "OF",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Fly to OF, catch not seen; side retired"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 31,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 32,
+   "inning": 3,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Out inferred, type not seen"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 33,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 34,
+   "inning": 3,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Batter runs to 1B then walks back = out, type not seen"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 35,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "Ground single, MW 1B dives and can't stop it"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 36,
+   "inning": 3,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 37,
+   "inning": 3,
+   "result": "GO",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "low"
+    },
+    {
+     "player": "mw_whitehoodie",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Grounder; MW 1B (cream hoodie) receiving near the bag; 3rd out inferred"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 45,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Single to right side, MW 1B chases"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 46,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit to right side, MW 1B/2B chase"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 47,
+   "inning": 4,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "mw_whitehoodie",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "Grounder to 1B side; MW 1B (cream hoodie) tags/beats runner near bag"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 48,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 49,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 50,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 51,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit to RF, MW RF (white) fields"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 52,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Single; batter stands at 1B with MW #8 nearby"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 53,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 54,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 55,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 56,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 57,
+   "inning": 4,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 69,
+   "inning": 5,
+   "result": "2B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 70,
+   "inning": 5,
+   "result": "K",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "C",
+     "stat": "PO",
+     "conf": "med"
+    }
+   ],
+   "why": "Swinging strikeout; catcher retrieves at backstop"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 71,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 72,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Grounder, batter safe; MW 1B (white hoodie) has the ball after he passes; courtesy runner on 2B next to #8"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 73,
+   "inning": 5,
+   "result": "2B",
+   "credits": [],
+   "why": "Double; batter ends standing on 2B next to #8"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 74,
+   "inning": 5,
+   "result": "3B",
+   "credits": [],
+   "why": "Ball into RF corner, MW 1B/RF retrieves at the fence"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 75,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Single to shallow RF, MW 1B chases"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 76,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 77,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 78,
+   "inning": 5,
+   "result": "1B",
+   "credits": [],
+   "why": "Two RF-line fouls chased by MW 1B, then ground single"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 79,
+   "inning": 5,
+   "result": "DP",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "A",
+     "conf": "med"
+    },
+    {
+     "player": "mw_whitehoodie",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "med"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "DP",
+     "conf": "low"
+    },
+    {
+     "player": "mw_whitehoodie",
+     "pos": "1B",
+     "stat": "DP",
+     "conf": "med"
+    }
+   ],
+   "why": "Grounder to middle; MW fielder takes it at 2B (force not clearly seen) and throws to MW 1B, foot on bag, just ahead of batter. 1B = white hoodie this inning (PA 72); the 2B-bag fielder is unnamed (#8 stood at 2B earlier this inning, but 2B vs SS not shown)"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 86,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Single past right side, white-hoodie fielder chases"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 87,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Infield single; runner beats throw to MW 1B (white hoodie)"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 88,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 89,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Grounder; #18 and MW 1B reach the bag together, #18 safe"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 90,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 91,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Grounder toward right side, MW 1B moves to it; batter safe"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 92,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 93,
+   "inning": 6,
+   "result": "1B",
+   "credits": [],
+   "why": "Hit, no out recorded"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 94,
+   "inning": 6,
+   "result": "DP",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "1B",
+     "stat": "PO",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "DP",
+     "conf": "low"
+    },
+    {
+     "player": "?",
+     "pos": "1B",
+     "stat": "DP",
+     "conf": "low"
+    }
+   ],
+   "why": "DP NOT seen, inferred (force at 2B + out at 1B) so the half closes at 3 outs; run scores first"
+  },
+  {
+   "game": "2026-11-03-g2",
+   "pa": 95,
+   "inning": 6,
+   "result": "OUT",
+   "credits": [
+    {
+     "player": "?",
+     "pos": "?",
+     "stat": "PO",
+     "conf": "low"
+    }
+   ],
+   "why": "3rd out inferred, play not seen; white-hoodie 1B and others jog in"
+  }
+ ],
+ "sanity_check": {
+  "2026-11-03-g1": {
+   "outs": 18,
+   "PO": 18,
+   "outs_by_inning": {
+    "1": 0,
+    "2": 3,
+    "3": 3,
+    "4": 3,
+    "5": 3,
+    "6": 3,
+    "7": 3
+   },
+   "note": "Inning 1 has only one opponent PA logged (9 s fragment), 0 outs. Innings 2 and 3 book all 3 outs on the last PA (0->3); one PO each is the actual play, the other 2 per inning are '?' placeholders for outs the log never located."
+  },
+  "2026-11-03-g2": {
+   "outs": 16,
+   "PO": 16,
+   "outs_by_inning": {
+    "1": 3,
+    "2": 3,
+    "3": 3,
+    "4": 1,
+    "5": 3,
+    "6": 3
+   },
+   "note": "Inning 4 log ends mid-half with only 1 out (file ends mid-play), so 16 outs total; game ended by forfeit in bottom 6th."
+  }
+ }
+}
