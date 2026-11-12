@@ -669,6 +669,7 @@ const ytBox = document.createElement("div"); ytBox.className = "ytbox";
 const noVid = document.createElement("div"); noVid.className = "novid";
 noVid.innerHTML = `<div><b>Video coming soon</b><span>This game's full video isn't online yet.</span></div>`;
 let yt = null, ytApiP = null, ytLoaded = null, ytWant = null;   // yt = {p: YT.Player, ready: Promise}
+let ytPending = false, ytGen = 0;   // only the newest request is applied once the player is ready
 const ytP = () => yt && yt.p && yt.p.getPlayerState ? yt.p : null;
 function ytApi(){
   return ytApiP || (ytApiP = new Promise(res => {
@@ -679,7 +680,7 @@ function ytApi(){
 }
 function ytReset(){
   if (yt && yt.p) { try { yt.p.destroy(); } catch(e){} }
-  yt = null; ytLoaded = null; ytWant = null; ytBox.innerHTML = "";
+  yt = null; ytLoaded = null; ytWant = null; ytBox.innerHTML = ""; ytPending = false; ytGen++;
 }
 function ytPlayer(){
   if (yt) return yt.ready;
@@ -692,9 +693,13 @@ function ytPlayer(){
 }
 function ytShow(id, t, play){
   ytWant = {id, t, play};
-  const me = yt || null;
+  if (ytPending) return;            // a request is already waiting; it will pick up this newer ytWant
+  ytPending = true;
+  const gen = ytGen;
   ytPlayer().then(p => {
-    const w = ytWant; if (!w || (me && yt !== me) || !yt || yt.p !== p) return;   // viewer was redrawn meanwhile
+    if (gen !== ytGen || !yt || yt.p !== p) return;   // viewer was redrawn meanwhile
+    ytPending = false;
+    const w = ytWant; if (!w) return;
     if (ytLoaded !== w.id) { ytLoaded = w.id; w.play ? p.loadVideoById({videoId: w.id, startSeconds: w.t}) : p.cueVideoById({videoId: w.id, startSeconds: w.t}); }
     else { p.seekTo(w.t, true); if (w.play) p.playVideo(); }
   });
